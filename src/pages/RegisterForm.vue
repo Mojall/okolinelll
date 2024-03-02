@@ -65,7 +65,10 @@ import { required, minLength, email, sameAs, helpers } from '@vuelidate/validato
 import { ElNotification } from 'element-plus';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import router from '../router/router.js';
-import { useRouter } from 'vue-router'; useRouter()
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex'; useRouter()
+
+const store = useStore()
 
 const regForm = reactive({
     email: '',
@@ -110,7 +113,7 @@ const submitForm = async () => {
                 type: 'success'
             })
             await router.push('/');
-            isLoggedIn.value = true;
+            store.commit('setLoggedIn', true)
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;

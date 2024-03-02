@@ -23,8 +23,10 @@ import { reactive } from 'vue';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useStore } from 'vuex';
 
 const router = useRouter();
+const store = useStore();
 
 const form = reactive({
     email: '',
@@ -43,7 +45,7 @@ const loginForm = async () => {
             type: 'success'
         });
         await router.push('/')
-        isLoggedIn.value = true;
+        store.commit('setLoggedIn', true)
     } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;

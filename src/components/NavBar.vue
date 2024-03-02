@@ -15,18 +15,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-
-const isLoggedIn = ref(false);
+import { useStore } from 'vuex';
 
 const router = useRouter();
+const store = useStore();
 
 const isCollapse = ref(true);
 
 
 const logout = () => {
-    isLoggedIn.value = false;
+    store.commit('setLoggedIn', false);
 }
 const registerForm = () => {
     router.push('/registerForm');
@@ -35,12 +35,12 @@ const registerForm = () => {
 const isLoginForm = () => {
     router.push('/my-login');
 };
-
-
-
 const toggleCollapse = () => {
     isCollapse.value = !isCollapse.value;
 };
+
+const isLoggedIn = computed(() => store.state.isLoggedIn);
+
 </script>
 
 
