@@ -18,7 +18,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const isLoggedIn = ref(true);
+const isLoggedIn = ref(false);
 
 const router = useRouter();
 
