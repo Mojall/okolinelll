@@ -2,7 +2,6 @@ import Home from '../pages/Home.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import RegisterForm from '../pages/RegisterForm.vue'
 import MyLogin from '../pages/MyLogin.vue';
-import MyTest from '../pages/MyTest.vue';
 import PaymentPage from '../pages/PaymentPage.vue';
 
 
@@ -19,10 +18,6 @@ const routes = [
     {
         path: '/my-login',
         component: MyLogin
-    },
-    {
-        path: '/my-test',
-        component: MyTest
     },
     {
         path: '/payment-page',

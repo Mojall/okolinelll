@@ -1,5 +1,5 @@
 <template>
-    <div class="logIn_container">
+    <div class="log_container">
         <h2 class="log-title">Вход</h2>
         <form @submit.prevent="loginForm">
             <div class="form-group">
@@ -59,7 +59,7 @@ const loginForm = async () => {
 </script>
 <style lang="sass" scoped>
 @import "../assets/styles/main"
-.logIn_container
+.log_container
     display: flex
     flex-direction: column
     justify-content: center
@@ -77,7 +77,6 @@ label
     display: block
     margin-bottom: 5px
     color: rgba(64, 58, 75, 0.8)
-    font-family: "Montserrat", "Arial", sans-serif
 
 input[type="email"],
 input[type="password"]
@@ -88,20 +87,12 @@ input[type="password"]
     border-radius: 7px
     border: none
     background-color: rgba(64, 158, 255, 0.1)
-    font-family: "Montserrat", "Arial", sans-serif
 
 button[type="submit"]
     margin-top: 17px
     padding: 8px
-    font-size: 16px
     width: 273px
     height: 40px
-    border: none
-    border-radius: 7px
-    background-color: rgb(64, 158, 255)
-    color: #ffffff
-    cursor: pointer
-    font-family: "Montserrat", "Arial", sans-serif
 
     &:hover
         background-color: darken(rgb(64,158,255), 10%)
@@ -109,7 +100,6 @@ button[type="submit"]
         background-color: darken(rgb(64,158,255), 20%)
 
 .log-title
-    font-family: "Montserrat", "Arial", sans-serif
     font-size: 24px
 
 .el-alert

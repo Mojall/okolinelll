@@ -20,10 +20,12 @@
                 <el-icon><Cpu /></el-icon>
                 <template #title>Консоль</template>
             </el-menu-item>
+        <a href="https://t.me/Helpte1st_Bot" target="_blank">
             <el-menu-item index="4">
                 <el-icon><Promotion /></el-icon>
                 <template #title>Поддержка</template>
             </el-menu-item>
+        </a>
         </el-menu>
     </div>
 </template>

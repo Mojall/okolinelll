@@ -107,11 +107,11 @@ const submitForm = async () => {
             const auth = getAuth()
             const userCredential = await createUserWithEmailAndPassword(auth, regForm.email, regForm.password);
             const user = userCredential.user;
-            ElNotification({
-                title: 'Успех',
-                message: 'Спасибо за регистрацию',
-                type: 'success'
-            })
+        ElNotification({
+            title: 'Успех',
+            message: 'Спасибо за регистрацию',
+            type: 'success'
+        })
             await router.push('/');
             store.commit('setLoggedIn', true)
         } catch (error) {
@@ -151,7 +151,6 @@ label
     display: block
     margin-bottom: 5px
     color: rgba(64, 58, 75, 0.8)
-    font-family: "Montserrat", "Arial", sans-serif
 
 .el-input__wrapper
     border-radius: 7px
@@ -160,15 +159,8 @@ label
 button[type="submit"]
     margin-top: 17px
     padding: 8px
-    font-size: 16px
     width: 273px
     height: 40px
-    border: none
-    border-radius: 7px
-    background-color: rgb(64, 158, 255)
-    color: #ffffff
-    cursor: pointer
-    font-family: "Montserrat", "Arial", sans-serif
 
     &:hover
         background-color: darken(rgb(64,158,255), 10%)
@@ -176,7 +168,6 @@ button[type="submit"]
         background-color: darken(rgb(64,158,255), 20%)
 
 .reg-title
-    font-family: "Montserrat", "Arial", sans-serif
     font-size: 24px
 
 .line
@@ -187,15 +178,11 @@ button[type="submit"]
 
 .google-button
     padding: 8px
-    font-size: 16px
     width: 273px
     height: 40px
-    border: none
     outline: 1px solid rgb(64, 158, 255)
-    border-radius: 7px
-    background-color: #ffffff
-    cursor: pointer
-    font-family: "Montserrat", "Arial", sans-serif
+    background-color: rgba(180, 212, 255, 0.1)
+    color: #000000
 
     &:hover
         background-color: rgba(64, 158, 255, 0.1)

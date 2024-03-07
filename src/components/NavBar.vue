@@ -51,6 +51,7 @@ const isLoggedIn = computed(() => store.state.isLoggedIn);
     width: 100%
 .header
     display: flex
+    margin-top: 10px
     justify-content: space-between
     box-shadow: 0 4px 16px rgba(0,51,153,.04),0 2px 2px rgba(0,51,153,.08)
 
@@ -86,7 +87,6 @@ const isLoggedIn = computed(() => store.state.isLoggedIn);
     background-color: rgb(64, 158, 255)
     color: #ffffff
     cursor: pointer
-    font-family: "Montserrat", "Arial", sans-serif
 
     &:hover
         background-color: darken(rgb(64,158,255), 10%)

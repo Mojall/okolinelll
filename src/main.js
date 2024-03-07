@@ -1,10 +1,11 @@
+import './assets/styles/main.sass'
 import { createApp } from 'vue';
-import store from './store/store'
+import store from './store/store';
 
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 
-import App from './App.vue'
+import App from './App.vue';
 import router from './router/router.js';
 
 const app = createApp(App)
@@ -20,13 +21,13 @@ import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD4DsbCBvHdzHj_pE1B6x-AE8G9VxeLO5c",
-    authDomain: "hosting-7c244.firebaseapp.com",
-    projectId: "hosting-7c244",
-    storageBucket: "hosting-7c244.appspot.com",
-    messagingSenderId: "947331217322",
-    appId: "1:947331217322:web:837ca6a77b56ff933e1dd3",
-    measurementId: "G-HESTG1H7TT"
+    apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+    authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.VUE_APP_FIREBASE_APP_ID,
+    measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
