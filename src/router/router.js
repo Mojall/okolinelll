@@ -5,7 +5,9 @@ import MyLogin from '../pages/MyLogin.vue';
 import PaymentPage from '../pages/PaymentPage.vue';
 
 
-const routes = [
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
     {
         path: '/',
         name: 'home',
@@ -24,10 +26,7 @@ const routes = [
         component: PaymentPage
     }
 ]
+});
 
-const router = createRouter( {
-    routes,
-    history: createWebHistory()
-})
 
 export default router;

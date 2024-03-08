@@ -1,5 +1,6 @@
 <template>
     <div class="log_container">
+        <button class="close-button" @click="closeForm"></button>
         <h2 class="log-title">Вход</h2>
         <form @submit.prevent="loginForm">
             <div class="form-group">
@@ -27,6 +28,10 @@ import { useStore } from 'vuex';
 
 const router = useRouter();
 const store = useStore();
+
+const closeForm = () => {
+    router.push('/')
+}
 
 const form = reactive({
     email: '',
@@ -61,6 +66,7 @@ const loginForm = async () => {
 @import "../assets/styles/main"
 .log_container
     display: flex
+    position: relative
     flex-direction: column
     justify-content: center
     margin: 150px auto
@@ -94,10 +100,6 @@ button[type="submit"]
     width: 273px
     height: 40px
 
-    &:hover
-        background-color: darken(rgb(64,158,255), 10%)
-    &:active
-        background-color: darken(rgb(64,158,255), 20%)
 
 .log-title
     font-size: 24px

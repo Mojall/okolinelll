@@ -31,6 +31,34 @@ button
     cursor: pointer
     font-family: "Montserrat", "Arial", sans-serif
 
+    &:hover
+        background-color: darken(rgb(64,158,255), 10%)
+    &:active
+        background-color: darken(rgb(64,158,255), 20%)
+
+.close-button
+    position: absolute
+    width: 20px
+    height: 20px
+    cursor: pointer
+    right: 35px
+    top: 35px
+
+    &::before,
+    &::after
+        content: ""
+        position: absolute
+        top: 50%
+        left: 50%
+        width: 12px
+        height: 2px
+        background-color: #fff
+
+    &::before
+        transform: translate(-50%, -50%) rotate(45deg)
+
+    &::after
+        transform: translate(-50%, -50%) rotate(-45deg)
 
 
 

@@ -20,7 +20,7 @@
                 <el-icon><Cpu /></el-icon>
                 <template #title>Консоль</template>
             </el-menu-item>
-        <a href="https://t.me/Helpte1st_Bot" target="_blank">
+        <a :href="telegramLink" target="_blank">
             <el-menu-item index="4">
                 <el-icon><Promotion /></el-icon>
                 <template #title>Поддержка</template>
@@ -33,6 +33,8 @@
 <script lang="ts" setup>
 import { ref, defineProps, watch } from 'vue';
 import { Cpu, CreditCard, Money, Promotion, } from '@element-plus/icons-vue'
+
+const telegramLink = import.meta.env.VITE_APP_TELEGRAM_LINK
 
 const props = defineProps({
     isCollapse: {

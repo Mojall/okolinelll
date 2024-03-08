@@ -1,5 +1,6 @@
 <template>
     <div class="register_container">
+        <button class="close-button" @click="closeForm"></button>
         <h2 class="reg-title">Регистрация</h2>
         <form @submit.prevent="submitForm">
             <div class="form-group">
@@ -98,6 +99,10 @@ const rules = computed(() => {
     }
 })
 
+const closeForm = () => {
+    router.push('/')
+}
+
 const v$ = useVuelidate(rules, regForm)
 
 const submitForm = async () => {
@@ -133,6 +138,7 @@ const submitForm = async () => {
 
 .register_container
     display: flex
+    position: relative
     flex-direction: column
     justify-content: center
     margin: 150px auto
@@ -162,11 +168,6 @@ button[type="submit"]
     width: 273px
     height: 40px
 
-    &:hover
-        background-color: darken(rgb(64,158,255), 10%)
-    &:active
-        background-color: darken(rgb(64,158,255), 20%)
-
 .reg-title
     font-size: 24px
 
@@ -188,6 +189,10 @@ button[type="submit"]
         background-color: rgba(64, 158, 255, 0.1)
     &:active
         background-color: rgba(64, 158, 255, 0.3)
+
+
+
+
 
 
 </style>
