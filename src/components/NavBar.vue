@@ -71,6 +71,9 @@ const isLoggedIn = computed(() => store.state.isLoggedIn);
     text-align: center
     margin: 2px 0 10px 20px
 
+    &:hover
+        background-color: inherit
+
 .logo
     margin: 0 0 8px 25px
     font-size: 22px
