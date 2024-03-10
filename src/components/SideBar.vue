@@ -34,7 +34,7 @@
 import { ref, defineProps, watch } from 'vue';
 import { Cpu, CreditCard, Money, Promotion, } from '@element-plus/icons-vue'
 
-const telegramLink = import.meta.env.VITE_APP_TELEGRAM_LINK
+const telegramLink = import.meta.env.VITE_TELEGRAM_LINK
 
 const props = defineProps({
     isCollapse: {
