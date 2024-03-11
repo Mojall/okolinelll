@@ -52,9 +52,6 @@
                 <button type="submit">Зарегистрировать</button>
             </div>
             <div class="line"></div>
-            <div class="form-group">
-                <button class="google-button">Продолжить с <strong>Google</strong></button>
-            </div>
         </form>
     </div>
 </template>
