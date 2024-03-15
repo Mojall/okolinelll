@@ -2,8 +2,8 @@
     <div class="container">
         <header class="header">
             <div class="left-btns">
-                <button @click="toggleCollapse" class="menu-btn"></button>
-                <a class="link logo" href="/">OKOLINE</a>
+                <button @click.self="toggleCollapse" class="menu-btn"></button>
+                <a class="link logo" href="/" @click.stop>OKOLINE</a>
             </div>
             <div class="nav-btns">
                 <el-button v-if="!isLoggedIn" class="form-btn" @click="registerForm">Регистрация</el-button>
@@ -23,7 +23,6 @@ const router = useRouter();
 const store = useStore();
 
 const isCollapse = ref(true);
-
 
 const logout = () => {
     store.commit('setLoggedIn', false);
