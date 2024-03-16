@@ -9,6 +9,12 @@ import App from './App.vue';
 import router from './router/router.js';
 
 const app = createApp(App)
+router.beforeEach((to, from, next) => {
+    to.meta.showNavBar = to.meta.showNavBar !== false;
+    to.meta.showSideBar = to.meta.showSideBar !== false;
+
+    next();
+});
 
 app
     .use(store)

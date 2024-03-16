@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import RegisterForm from '../pages/RegisterForm.vue'
 import MyLogin from '../pages/MyLogin.vue';
 import PaymentPage from '../pages/PaymentPage.vue';
+import AccountStatus from '../pages/AccountStatus.vue';
 
 
 const router = createRouter({
@@ -15,15 +16,27 @@ const router = createRouter({
     },
     {
         path: '/registerForm',
-        component: RegisterForm
+        component: RegisterForm,
+        meta: {
+            showNavBar: false,
+            showSideBar: false,
+        },
     },
     {
         path: '/my-login',
-        component: MyLogin
+        component: MyLogin,
+        meta: {
+            showNavBar: false,
+            showSideBar: false,
+        },
     },
     {
         path: '/payment-page',
         component: PaymentPage
+    },
+    {
+        path: '/account-status',
+        component: AccountStatus
     }
 ]
 });

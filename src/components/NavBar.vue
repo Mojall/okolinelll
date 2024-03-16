@@ -3,7 +3,7 @@
         <header class="header">
             <div class="left-btns">
                 <button @click.self="toggleCollapse" class="menu-btn"></button>
-                <a class="link logo" href="/" @click.stop>OKOLINE</a>
+                <router-link class="link logo" to="/" @click.stop>OKOLINE</router-link>
             </div>
             <div class="nav-btns">
                 <el-button v-if="!isLoggedIn" class="form-btn" @click="registerForm">Регистрация</el-button>

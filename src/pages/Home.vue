@@ -1,13 +1,10 @@
 <template>
-    <div>
-        <main-layout />
-    </div>
+    <h1>Главный экран</h1>
 </template>
 
 <script setup>
-
-import MainLayout from '../components/MainLayout.vue';
 </script>
 <style lang="sass" scoped>
-
+h1
+    margin-left: 20px
 </style>

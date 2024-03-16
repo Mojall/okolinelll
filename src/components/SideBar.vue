@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="sidebar">
         <el-menu
             default-active="1"
             class="el-menu-vertical-demo"
@@ -8,10 +8,12 @@
             @close="handleClose"
             style="height: 100vh"
         >
-            <el-menu-item index="1">
-                <el-icon><Money /></el-icon>
-                <template #title>Статус счёта</template>
-            </el-menu-item>
+            <router-link to="/account-status">
+                <el-menu-item index="1">
+                    <el-icon><Money /></el-icon>
+                    <template #title>Статус счёта</template>
+                </el-menu-item>
+            </router-link>
             <el-menu-item index="2">
                 <el-icon><CreditCard /></el-icon>
                 <template #title>Окно оплаты</template>
@@ -58,6 +60,9 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <style lang="sass" scoped>
+
+.sidebar
+    max-width: 10%
 
 a
     text-decoration: none
