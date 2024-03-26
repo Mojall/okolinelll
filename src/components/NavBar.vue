@@ -8,8 +8,8 @@
             <div class="nav-btns">
                 <el-button v-if="!isLoggedIn" class="form-btn" @click="registerForm">Регистрация</el-button>
                 <el-button v-if="!isLoggedIn" class="form-btn" @click="isLoginForm">Вход</el-button>
-            </div>
                 <el-button v-if="isLoggedIn" class="form-btn" @click="logout">Выход</el-button>
+            </div>
         </header>
     </div>
 </template>

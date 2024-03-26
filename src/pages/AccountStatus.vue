@@ -3,7 +3,10 @@
             <h1>Хостинг сайта</h1>
             <div class="tariff-info">
                 <h2>Текущий тариф: {{ activeTariff.name }}</h2>
-                <p>Баланс: {{ balance }}</p>
+            </div>
+            <div class="balance">
+                <p>Баланс: <strong>{{ balance }} ₽</strong></p>
+                <button>Пополнить</button>
             </div>
             <div class="tab-container">
                 <div
@@ -15,7 +18,13 @@
                     {{ tariff.name }}
                 </div>
             </div>
-            <div class="hardware-info">
+            <ul class="hardware-info-list">
+                <li class="hardware-info-item">CPU: {{ activeTariff.cpu }}</li>
+                <li class="hardware-info-item">RAM: {{ activeTariff.ram }}</li>
+                <li class="hardware-info-item">Диск: {{ activeTariff.disk }}</li>
+                <li class="hardware-info-item">Количество дисков: {{ activeTariff.diskCount }}</li>
+            </ul>
+            <div class="hardware-info-item">
                 <h3>Информация о сервере</h3>
                 <p>CPU: {{ activeTariff.cpu }}</p>
                 <p>RAM: {{ activeTariff.ram }}</p>
@@ -67,11 +76,28 @@
 .tariff-info
     margin-bottom: 20px
 
+.balance
+    display: flex
+    gap: 20px
+    margin-bottom: 15px
 
-.hardware-info
+.hardware-info-list
+    display: flex
+    padding: 0
+    gap: 50px
+
+.hardware-info-item
     margin-top: 20px
+    padding: 50px
+    border-radius: 15px
+    width: max-content
+    list-style-type: none
+    cursor: pointer
+    box-shadow: 0 4px 16px rgba(0,51,153,.1),0 2px 2px rgba(0,51,153,.08)
+    transition: all .3s ease-in-out
 
-
+    &:hover
+        box-shadow: 0 4px 16px rgba(0,51,153,.9),0 2px 2px rgba(0,51,153,.08)
 h1
     font-size: 24px
     font-weight: bold

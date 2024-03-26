@@ -74,6 +74,7 @@ const loginForm = async () => {
     width: 458px
     height: 657px
     border-radius: 20px
+    background-color: #ffffff
     box-shadow: 0 4px 16px rgba(0,51,153,.9),0 2px 2px rgba(0,51,153,.08)
 
 .form-group

@@ -25,5 +25,6 @@ const isCollapse = ref(true);
 .kek
     display: flex
 .content
+    background-color: rgb(1,1,1,0.03)
     width: 100%
 </style>
