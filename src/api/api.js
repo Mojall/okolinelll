@@ -9,7 +9,7 @@ export function updateUser(userId, userData) {
 }
 
 export async function fetchData() {
-    const response = await fetch('/data.json');
+    const response = await fetch('../data.json');
     if (!response.ok) {
         throw new Error('Ошибка при выполнении запроса');
     }
