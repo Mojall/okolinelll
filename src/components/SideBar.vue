@@ -14,10 +14,12 @@
                     <template #title>Статус счёта</template>
                 </el-menu-item>
             </router-link>
-            <el-menu-item index="2">
-                <el-icon><CreditCard /></el-icon>
-                <template #title>Окно оплаты</template>
-            </el-menu-item>
+            <router-link to="/payment-page">
+                <el-menu-item index="2">
+                    <el-icon><CreditCard /></el-icon>
+                    <template #title>Окно оплаты</template>
+                </el-menu-item>
+            </router-link>
             <el-menu-item index="3">
                 <el-icon><Cpu /></el-icon>
                 <template #title>Консоль</template>

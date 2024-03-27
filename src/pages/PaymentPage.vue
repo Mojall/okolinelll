@@ -1,15 +1,14 @@
 <template>
-    <home />
-    <div class="payment-page">
-        <h1>Окно оплаты</h1>
+    <div class="container">
+       <h1>Окно оплаты</h1>
     </div>
 </template>
 
 <script setup>
 
-import Home from './Home.vue';
 </script>
 
 <style lang="sass" scoped>
-
+.container
+    margin: 20px
 </style>

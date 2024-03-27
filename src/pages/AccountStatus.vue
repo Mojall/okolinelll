@@ -12,8 +12,9 @@
                 <div
                     v-for="tariff in tariffs"
                     :key="tariff.id"
-                    :class="['tab', { 'active': tariff.id === activeTariffId }]"
+                    :class="['tab', { 'active': tariff.id === activeTariffId, 'inactive': tariff.id !== activeTariffId }]"
                     @click="selectTariff(tariff.id)"
+                    :disabled="tariff.id !== activeTariffId"
                 >
                     {{ tariff.name }}
                 </div>
@@ -72,6 +73,10 @@
 .container
     margin: 20px
     font-family: Arial, sans-serif
+
+.tab.inactive
+    color: gray
+    pointer-events: none
 
 .tariff-info
     margin-bottom: 20px
