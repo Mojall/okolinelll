@@ -22,7 +22,6 @@ app
     .use(ElementPlus)
     .mount('#app')
 
-
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
 
