@@ -13,7 +13,7 @@
                     clearable
                 />
             </div>
-            <div  class="form-group">
+            <div class="form-group">
                 <label for="username">Имя пользователя</label>
                 <el-input
                     size="large"
@@ -34,7 +34,6 @@
                     type="password"
                     id="password"
                     clearable
-
                 />
             </div>
             <div class="form-group">
@@ -59,63 +58,74 @@
 <script setup>
 import { reactive, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, email, sameAs, helpers } from '@vuelidate/validators';
+import {
+    required,
+    minLength,
+    email,
+    sameAs,
+    helpers,
+} from '@vuelidate/validators';
 import { ElNotification } from 'element-plus';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import router from '../router/router.js';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex'; useRouter()
+import { useStore } from 'vuex';
 
-const store = useStore()
+useRouter();
+
+const store = useStore();
 
 const regForm = reactive({
     email: '',
     username: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
 });
 
 const rules = computed(() => {
     return {
         email: {
             required,
-            email
+            email,
         },
         username: {
             required,
-            minLength:minLength(6)
+            minLength: minLength(6),
         },
         password: {
             required,
-            minLength: minLength(8)
+            minLength: minLength(8),
         },
         confirmPassword: {
             required,
-            sameAs: sameAs(regForm.password)
-        }
-    }
-})
+            sameAs: sameAs(regForm.password),
+        },
+    };
+});
 
 const closeForm = () => {
-    router.push('/')
-}
+    router.push('/');
+};
 
-const v$ = useVuelidate(rules, regForm)
+const v$ = useVuelidate(rules, regForm);
 
 const submitForm = async () => {
-    const  result = await v$.value.$validate();
+    const result = await v$.value.$validate();
     if (result) {
         try {
-            const auth = getAuth()
-            const userCredential = await createUserWithEmailAndPassword(auth, regForm.email, regForm.password);
+            const auth = getAuth();
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                regForm.email,
+                regForm.password,
+            );
             const user = userCredential.user;
-        ElNotification({
-            title: 'Успех',
-            message: 'Спасибо за регистрацию',
-            type: 'success'
-        })
+            ElNotification({
+                title: 'Успех',
+                message: 'Спасибо за регистрацию',
+                type: 'success',
+            });
             await router.push('/');
-            store.commit('setLoggedIn', true)
+            store.commit('setLoggedIn', true);
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -124,10 +134,10 @@ const submitForm = async () => {
         ElNotification({
             title: 'Ошибка',
             message: 'Что-то пошло не так',
-            type: 'error'
+            type: 'error',
         });
     }
-}
+};
 </script>
 
 <style lang="sass" scoped>
@@ -144,7 +154,7 @@ const submitForm = async () => {
     height: 657px
     border-radius: 20px
     background-color: #ffffff
-    box-shadow: 0 4px 16px rgba(0,51,153,.9),0 2px 2px rgba(0,51,153,.08)
+    box-shadow: 0 4px 16px rgba(0, 51, 153, .9), 0 2px 2px rgba(0, 51, 153, .08)
 
 
 .form-group
@@ -185,12 +195,7 @@ button[type="submit"]
 
     &:hover
         background-color: rgba(64, 158, 255, 0.1)
+
     &:active
         background-color: rgba(64, 158, 255, 0.3)
-
-
-
-
-
-
 </style>

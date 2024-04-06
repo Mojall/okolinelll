@@ -2,57 +2,87 @@
     <div class="container">
         <header class="header">
             <div class="left-btns">
-                <button @click.self="toggleCollapse" class="menu-btn"></button>
-                <router-link class="link logo" to="/" @click.stop>OKOLINE</router-link>
+                <button @click="toggleCollapse" class="menu-btn"></button>
+                <router-link class="link logo" to="/">OKOLINE</router-link>
             </div>
             <div class="nav-btns">
-                <el-button v-if="!isLoggedIn" class="form-btn" @click="registerForm">Регистрация</el-button>
-                <el-button v-if="!isLoggedIn" class="form-btn" @click="isLoginForm">Вход</el-button>
-                <el-button v-if="isLoggedIn" class="form-btn" @click="logout">Выход</el-button>
+                <!--                <el-button v-if="!isLoggedIn"  class="form-btn" @click="registerForm"-->
+                <!--                >Регистрация</el-button-->
+                <!--                >-->
+                <router-link to="/payment-page">
+                    <el-button v-if="isLoggedIn" class="balance"><strong>{{ balance }}₽</strong></el-button>
+                </router-link>
+                <el-button v-if="!isLoggedIn" class="form-btn" @click="isLoginForm"
+                >Вход
+                </el-button
+                >
+                <el-button v-if="isLoggedIn" class="form-btn" @click="logout"
+                >Выход
+                </el-button
+                >
             </div>
         </header>
     </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { getCurrentInstance, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { isLoggedIn } from '../main.js';
+import { fetchData } from '../api/api.js';
+import Cookies from 'js-cookie';
 
+const { emit } = getCurrentInstance();
 const router = useRouter();
 const store = useStore();
 
 const isCollapse = ref(true);
 
+
 const logout = () => {
     store.commit('setLoggedIn', false);
-}
-const registerForm = () => {
-    router.push('/registerForm');
+    Cookies.remove('jwtToken');
+    Cookies.remove('refreshToken');
+    router.push('/');
 };
+// Переход на форму регистрации
+// const registerForm = () => {
+//     router.push("/registerForm");
+// };
 
 const isLoginForm = () => {
     router.push('/my-login');
 };
 const toggleCollapse = () => {
     isCollapse.value = !isCollapse.value;
+    emit('toggleCollapse');
 };
 
-const isLoggedIn = computed(() => store.state.isLoggedIn);
+const balance = ref('');
+
+onMounted(async () => {
+    try {
+        const data = await fetchData();
+        balance.value = data.balance;
+    } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+    }
+});
 
 </script>
-
 
 <style lang="sass" scoped>
 @import "src/assets/styles/main"
 
 .container
     width: 100%
+
 .header
     display: flex
     margin-top: 10px
     justify-content: space-between
-    box-shadow: 0 4px 16px rgba(0,51,153,.04),0 2px 2px rgba(0,51,153,.08)
+    box-shadow: 0 4px 16px rgba(0, 51, 153, .04), 0 2px 2px rgba(0, 51, 153, .08)
 
 .left-btns
     display: flex
@@ -73,12 +103,28 @@ const isLoggedIn = computed(() => store.state.isLoggedIn);
     &:hover
         background-color: inherit
 
+.balance
+    border: none
+    outline: none
+    background-color: #fffefe
+    color: #409eff
+    box-shadow: 0 4px 16px rgba(0, 51, 153, .04), 0 2px 2px rgba(0, 51, 153, .08)
+
+    &:hover
+        background-color: inherit
+        transform: scale(1.1)
+
+    &:active
+        transform: scale(1.0)
+
 .logo
     margin: 0 0 8px 25px
     font-size: 22px
 
 .nav-btns
+    display: flex
     margin: 0 15px 10px
+    gap: 10px
 
 .logIn
     display: none
@@ -91,7 +137,8 @@ const isLoggedIn = computed(() => store.state.isLoggedIn);
     cursor: pointer
 
     &:hover
-        background-color: darken(rgb(64,158,255), 10%)
+        background-color: darken(rgb(64, 158, 255), 10%)
+
     &:active
-        background-color: darken(rgb(64,158,255), 20%)
+        background-color: darken(rgb(64, 158, 255), 20%)
 </style>

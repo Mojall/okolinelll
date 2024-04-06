@@ -1,13 +1,12 @@
 <template>
     <div class="container">
-        <NavBar v-if="$route.meta.showNavBar" @click="isCollapse = !isCollapse" />
+        <NavBar v-if="$route.meta.showNavBar" :isCollapse="isCollapse" @toggleCollapse="toggleCollapse"/>
         <div class="kek">
-            <SideBar v-if="$route.meta.showSideBar" :isCollapse="isCollapse" />
+            <SideBar v-if="$route.meta.showSideBar" :isCollapse="isCollapse"/>
             <div class="content">
-                <router-view />
+                <router-view/>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -17,14 +16,18 @@ import SideBar from './components/SideBar.vue';
 import { ref } from 'vue';
 
 const isCollapse = ref(true);
-</script>
 
+const toggleCollapse = () => {
+    isCollapse.value = !isCollapse.value;
+};
+</script>
 
 <style lang="sass" scoped>
 @import "assets/styles/main"
 .kek
     display: flex
+
 .content
-    background-color: rgb(1,1,1,0.03)
+    background-color: rgb(1, 1, 1, 0.03)
     width: 100%
 </style>

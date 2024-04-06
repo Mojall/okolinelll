@@ -1,71 +1,96 @@
-import './assets/styles/main.sass'
-import { createApp } from 'vue';
+import './assets/styles/main.sass';
+import { computed, createApp } from 'vue';
 import store from './store/store';
 
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
+import Cookies from 'js-cookie';
 
 import App from './App.vue';
 import router from './router/router.js';
+import axios from 'axios';
+import { refreshAxios } from './api/api.js';
+import { refreshAccessToken } from './api/auth.js';
 
-const app = createApp(App)
-router.beforeEach((to, from, next) => {
-    to.meta.showNavBar = to.meta.showNavBar !== false;
-    to.meta.showSideBar = to.meta.showSideBar !== false;
 
-    next();
-});
+const app = createApp(App);
 
-app
-    .use(store)
-    .use(router)
-    .use(ElementPlus)
-    .mount('#app')
+const jwtToken = Cookies.get('jwtToken');
+const refreshTokenValue = Cookies.get('refreshToken');
+if (jwtToken && refreshTokenValue) {
+    refreshAxios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+    store.commit('setLoggedIn', true);
+}
 
-import { initializeApp } from "firebase/app";
-import {getAuth} from 'firebase/auth';
+axios.interceptors.request.use(
+    async (config) => {
+        const jwtToken = Cookies.get('jwtToken');
+        if (jwtToken) {
+            config.headers.Authorization = `Bearer ${jwtToken}`;
+        }
+        return config;
+    },
+    async (error) => {
+        if (error.response.status === 401) {
+            const refreshTokenValue = Cookies.get('refreshToken');
 
-const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+            if (refreshTokenValue) {
+                try {
+                    const newToken = await refreshAccessToken(refreshTokenValue);
+                    error.config.headers.Authorization = `Bearer ${newToken}`;
+                    return axios.request(error.config);
+                } catch (error) {
+                    logout();
+                    return Promise.reject(error);
+                }
+            } else {
+                logout();
+                return Promise.reject(error);
+            }
+        }
+
+        return Promise.reject(error);
+    },
+);
+
+axios.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        if (error.response.status === 401) {
+            const refreshTokenValue = Cookies.get('refreshToken');
+
+            if (refreshTokenValue) {
+                try {
+                    const newToken = await refreshAccessToken(refreshTokenValue);
+                    error.config.headers.Authorization = `Bearer ${newToken}`;
+                    return axios.request(error.config);
+                } catch (error) {
+                }
+            } else {
+            }
+        }
+
+        return Promise.reject(error);
+    },
+);
+
+const checkAuthentication = () => {
+    router.beforeEach((to, from, next) => {
+        to.meta.showNavBar = to.meta.showNavBar !== false;
+        to.meta.showSideBar = to.meta.showSideBar !== false;
+
+        if (to.meta.requiresAuth && !isLoggedIn.value) {
+            next('/my-login');
+        } else {
+            next();
+        }
+    });
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp)
+checkAuthentication();
 
+const isLoggedIn = computed(() => store.state.isLoggedIn);
 
+app.use(store).use(router).use(ElementPlus).mount('#app');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export { isLoggedIn };

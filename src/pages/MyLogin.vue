@@ -2,63 +2,64 @@
     <div class="log_container">
         <button class="close-button" @click="closeForm"></button>
         <h2 class="log-title">Вход</h2>
-        <form @submit.prevent="loginForm">
+        <form @submit.prevent="submitForm">
             <div class="form-group">
-                <label for="email">Почта</label>
-                <el-input size="large" v-model="form.email" type="email" id="email" />
+                <label for="login">Логин</label>
+                <el-input size="large" v-model="form.login" type="text" id="login"/>
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
-                <el-input size="large" v-model="form.password"  type="password" id="password" />
+                <el-input
+                    size="large"
+                    v-model="form.password"
+                    type="password"
+                    id="password"
+                />
             </div>
             <div class="form-group">
                 <button type="submit">Войти</button>
             </div>
         </form>
-        <p>Нет аккаунта? <router-link class="link" to="/RegisterForm">Зарегистрироваться</router-link> </p>
+        <!--        <p>-->
+        <!--            Нет аккаунта?-->
+        <!--            <router-link class="link" to="/RegisterForm"-->
+        <!--            >Зарегистрироваться</router-link-->
+        <!--            >-->
+        <!--        </p>-->
     </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
-import { ElNotification } from 'element-plus';
-import { useRouter } from 'vue-router'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useStore } from 'vuex';
+import { form, loginForm, refreshAccessToken, resetForm, setTokens } from '../api/auth.js';
+import { useRouter } from 'vue-router';
+import store from '../store/store.js';
+import Cookies from 'js-cookie';
 
 const router = useRouter();
-const store = useStore();
 
 const closeForm = () => {
-    router.push('/')
-}
+    router.push('/');
+};
 
-const form = reactive({
-    email: '',
-    password: '',
-});
-
-const loginForm = async () => {
+const submitForm = async () => {
     try {
-        const auth = getAuth();
-        const userCredential = await signInWithEmailAndPassword(auth, form.email, form.password);
-        const user = userCredential.user;
+        await loginForm();
+        resetForm();
+        store.commit('setLoggedIn', true);
 
-        ElNotification({
-            title: 'Успех',
-            message: 'Вход выполнен успешно',
-            type: 'success'
-        });
-        await router.push('/')
-        store.commit('setLoggedIn', true)
+        const jwtToken = Cookies.get('jwtToken');
+        const refreshTokenValue = Cookies.get('refreshToken');
+        if (jwtToken && refreshTokenValue) {
+            refreshAccessToken(refreshTokenValue)
+                .then((newToken) => {
+                    setTokens(newToken, refreshTokenValue);
+                })
+                .catch((error) => {
+                    console.error('Ошибка при обновлении токена:', error);
+                });
+        }
+        await router.push('/');
     } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    ElNotification({
-        title: 'Ошибка',
-        message: 'Неверный email или пароль',
-        type: 'error'
-    });
     }
 };
 </script>
@@ -75,7 +76,7 @@ const loginForm = async () => {
     height: 657px
     border-radius: 20px
     background-color: #ffffff
-    box-shadow: 0 4px 16px rgba(0,51,153,.9),0 2px 2px rgba(0,51,153,.08)
+    box-shadow: 0 4px 16px rgba(0, 51, 153, .9), 0 2px 2px rgba(0, 51, 153, .08)
 
 .form-group
     margin-bottom: 20px
@@ -110,5 +111,4 @@ button[type="submit"]
 
 .el-alert:first-child
     margin: 0
-
 </style>
