@@ -18,5 +18,24 @@ function pluralize (number, singular, pluralFew, pluralMany) {
     }
 }
 
+const formatDate = (column) => {
+    const dateString = column.date;
+    const date = new Date(dateString);
+    const option = {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false,
+    };
+    return new Intl.DateTimeFormat('ru-RU', option).format(date);
+};
 
-export { formatAmount, pluralize };
+const formatTableAmount = (column) => {
+    const amount = parseFloat(column.amount)
+    return amount.toFixed(2);
+}
+
+export { formatAmount, pluralize, formatDate, formatTableAmount };
