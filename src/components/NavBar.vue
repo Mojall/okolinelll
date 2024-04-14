@@ -49,7 +49,7 @@ const logout = () => {
     store.commit('setLoggedIn', false);
     Cookies.remove('jwtToken');
     Cookies.remove('refreshToken');
-    router.push('/');
+    router.push('/my-login');
 };
 // Переход на форму регистрации
 // const registerForm = () => {

@@ -1,6 +1,5 @@
 <template>
     <div class="log_container">
-        <button class="close-button" @click="closeForm"></button>
         <h2 class="log-title">Вход</h2>
         <form @submit.prevent="submitForm">
             <div class="form-group">
@@ -34,15 +33,18 @@ import { form, loginForm, refreshAccessToken, resetForm, setTokens } from '../ap
 import { useRouter } from 'vue-router';
 import store from '../store/store.js';
 import Cookies from 'js-cookie';
+import { ref } from 'vue';
 
 const router = useRouter();
-
-const closeForm = () => {
-    router.push('/');
-};
+const isSubmitting = ref(false);
 
 const submitForm = async () => {
+    if (isSubmitting.value) {
+        return;
+    }
     try {
+        isSubmitting.value = true;
+
         await loginForm();
         resetForm();
         store.commit('setLoggedIn', true);
@@ -60,6 +62,8 @@ const submitForm = async () => {
         }
         await router.push('/');
     } catch (error) {
+    } finally {
+        isSubmitting.value = false;
     }
 };
 </script>
