@@ -30,7 +30,6 @@ import { getCurrentInstance, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { isLoggedIn } from '../main.js';
-import { fetchData } from '../api/api.js';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { formatAmount } from '../utils/utils.js';
@@ -64,18 +63,6 @@ const toggleCollapse = () => {
     isCollapse.value = !isCollapse.value;
     emit('toggleCollapse');
 };
-
-const balance = ref('');
-
-onMounted(async () => {
-    try {
-        const data = await fetchData();
-        balance.value = data.balance;
-    } catch (error) {
-        console.error('Ошибка при получении данных:', error);
-    }
-});
-
 </script>
 
 <style lang="sass" scoped>

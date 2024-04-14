@@ -33,7 +33,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { fetchData, refreshAxios } from '../api/api.js';
+import { refreshAxios } from '../api/api.js';
 import Cookies from 'js-cookie';
 import { formatAmount } from '../utils/utils.js';
 import { jwtDecode } from 'jwt-decode';
@@ -86,16 +86,6 @@ onMounted(async () => {
         console.error('Ошибка при получении данных:', error);
     }
 });
-
-onMounted(async () => {
-    try {
-        const data = await fetchData();
-        balance.value = data.balance;
-    } catch (error) {
-        console.error('Ошибка при получении данных:', error);
-    }
-});
-
 </script>
 
 <style lang="sass" scoped>
