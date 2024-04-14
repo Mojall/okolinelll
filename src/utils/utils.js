@@ -3,20 +3,20 @@ const formatAmount = (amount) => {
     return roundedAmount.toFixed(2);
 };
 
-function pluralizeCores (count) {
-    const lastDigit = count % 10;
-    const lastTwoDigits = count % 100;
+function pluralize (number, singular, pluralFew, pluralMany) {
+    const lastDigit = number % 10;
+    const lastTwoDigits = number % 100;
 
     if (lastDigit >= 11 && lastTwoDigits <= 19) {
-        return 'ядер';
+        return pluralMany;
     } else if (lastDigit === 1) {
-        return 'ядро';
+        return singular;
     } else if (lastDigit >= 2 && lastDigit <= 4) {
-        return 'ядра';
+        return pluralFew;
     } else {
-        return 'ядер';
+        return pluralMany;
     }
 }
 
 
-export { formatAmount, pluralizeCores };
+export { formatAmount, pluralize };

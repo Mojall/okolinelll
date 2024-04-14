@@ -5,14 +5,14 @@
             <h2>Текущий тариф: {{ userTariff.name }}</h2>
         </div>
         <ul class="hardware-info-list">
-            <li class="hardware-info-item">CPU: {{ userTariff.cpuCoresCount }} {{ pluralizeCores(userTariff.cpuCoresCount) }}</li>
+            <li class="hardware-info-item">CPU: {{ userTariff.cpuCoresCount }} {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}</li>
             <li class="hardware-info-item">RAM: {{ userTariff.ramInGb }} ГБ</li>
             <li v-if="userTariff.hardInMb !== null" class="hardware-info-item">HDD: {{ userTariff.hardInMb }} Гб</li>
             <li v-if="userTariff.ssdInGb !== null" class="hardware-info-item">SDD: {{ userTariff.ssdInGb }} Гб</li>
         </ul>
         <div class="hardware-info-item">
             <h3>Информация о сервере</h3>
-            <p>CPU: {{ userTariff.cpuCoresCount }} {{ pluralizeCores(userTariff.cpuCoresCount) }}</p>
+            <p>CPU: {{ userTariff.cpuCoresCount }} {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}</p>
             <p>RAM: {{ userTariff.ramInGb }}</p>
             <p v-if="userTariff.hardInMb !== null">HDD: {{ userTariff.hardInMb }} Гб</p>
             <p v-if="userTariff.ssdInGb !== null">SSD: {{ userTariff.ssdInGb }} Гб</p>
@@ -24,7 +24,7 @@
             <div v-for="tariff in tariffs" :key="tariff['@id']" class="hardware-info-item">
                 <h3>{{ tariff.name }}</h3>
                 <p>Цена: {{ formatAmount(tariff.amount) }}</p>
-                <p>CPU: {{ tariff.specs.cpuCoresCount }} {{ pluralizeCores(tariff.specs.cpuCoresCount) }}</p>
+                <p>CPU: {{ tariff.specs.cpuCoresCount }} {{ pluralize(tariff.specs.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}</p>
                 <p v-if="tariff.specs.hardInGb !== null">HDD: {{ tariff.specs.hardInGb }} Гб</p>
                 <p v-if="tariff.specs.ssdInGb !== null">SDD: {{ tariff.specs.ssdInGb }} Гб</p>
                 <p>IP: {{ tariff.specs.ipCount }}</p>
@@ -38,7 +38,7 @@ import { refreshAxios } from '../api/api.js';
 import { ref, onMounted } from 'vue';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import { formatAmount, pluralizeCores } from '../utils/utils.js';
+import { formatAmount, pluralize } from '../utils/utils.js';
 
 const tariffs = ref([]);
 const isLoading = ref(false);
@@ -47,6 +47,7 @@ const token = Cookies.get('jwtToken');
 const decodeToken = jwtDecode(token);
 const { tariff_data } = decodeToken;
 const userTariff = tariff_data.specs;
+
 
 
 onMounted(async () => {
