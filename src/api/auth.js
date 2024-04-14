@@ -10,7 +10,7 @@ const refreshAccessToken = async (refreshToken) => {
         if (!refreshToken) {
             throw new Error('Invalid refresh token');
         }
-        const response = await axios.post('https://api.okoline.ru/auth/refresh', {
+        const response = await refreshAxios.post('/auth/refresh', {
             refreshToken: refreshToken,
         });
 
@@ -36,8 +36,8 @@ const loginForm = async () => {
             login: form.login,
             password: form.password,
         };
-        const response = await axios.post(
-            'https://api.okoline.ru/auth/login',
+        const response = await refreshAxios.post(
+            '/auth/login',
             loginData,
         );
 

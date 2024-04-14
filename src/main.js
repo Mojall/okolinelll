@@ -40,11 +40,9 @@ axios.interceptors.request.use(
                     error.config.headers.Authorization = `Bearer ${newToken}`;
                     return axios.request(error.config);
                 } catch (error) {
-                    logout();
                     return Promise.reject(error);
                 }
             } else {
-                logout();
                 return Promise.reject(error);
             }
         }
@@ -86,6 +84,7 @@ const checkAuthentication = () => {
         }
     });
 };
+
 
 checkAuthentication();
 

@@ -1,7 +1,10 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
+const baseURL = import.meta.env.VITE_BASE_URL_LINK;
 
 const refreshAxios = axios.create({
-    baseURL: 'https://api.okoline.ru',
+    baseURL: baseURL,
 });
 
 
@@ -15,3 +18,4 @@ const fetchData = async () => {
 };
 
 export { refreshAxios, fetchData };
+

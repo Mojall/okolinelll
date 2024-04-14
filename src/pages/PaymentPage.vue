@@ -2,23 +2,29 @@
     <div class="container">
         <div class="balance">
             <p>
-                Баланс: <strong>{{ balance }} ₽</strong>
+                Баланс: <strong>{{ formatAmount(userTariff.amount) }} ₽</strong>
             </p>
             <el-button class="btn btn-balance">Пополнить</el-button>
         </div>
         <div v-if="isLoading" class="loader"></div>
         <div class="payments" v-else-if="paymentsToShow.length > 0">
             <h2>История пополнений</h2>
-            <ul class="payment-list">
-                <li class="payment-item"
-                    v-for="payment in paymentsToShow"
-                    :key="payment['@id']"
-                >
-                    <p>Дата: {{ formatDate(payment.date) }}</p>
-                    <p>Сумма: {{ formatAmount(payment.amount) }}</p>
-                    <p>Тип оплаты: {{ payment.cashTypeValue }}</p>
-                </li>
-            </ul>
+            <table class="payment-table">
+                <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Сумма</th>
+                    <th>Тип оплаты</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="payment in paymentsToShow" :key="payment['@id']">
+                    <td>{{ formatDate(payment.date) }}</td>
+                    <td>{{ formatAmount(payment.amount) }}</td>
+                    <td>{{ payment.cashTypeValue }}</td>
+                </tr>
+                </tbody>
+            </table>
             <el-button v-if="payments.length > visiblePayments" @click="showMorePayments" class="btn btn-more">Показать ещё</el-button>
         </div>
         <h2 v-else>Пополнений нету</h2>
@@ -27,9 +33,10 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { fetchData } from '../api/api.js';
-import axios from 'axios';
+import { fetchData, refreshAxios } from '../api/api.js';
 import Cookies from 'js-cookie';
+import { formatAmount } from '../utils/utils.js';
+import { jwtDecode } from 'jwt-decode';
 
 
 const payments = ref([]);
@@ -37,6 +44,10 @@ const balance = ref('');
 const isLoading = ref(false);
 const visiblePayments = ref(10);
 
+const token = Cookies.get('jwtToken');
+const decodeToken = jwtDecode(token);
+const { user_data } = decodeToken;
+const userTariff = user_data;
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -51,11 +62,6 @@ const formatDate = (dateString) => {
     return new Intl.DateTimeFormat(undefined, option).format(date);
 };
 
-const formatAmount = (amount) => {
-    const roundedAmount = Math.round(amount * 100) / 100;
-    return roundedAmount.toFixed(2);
-};
-
 const showMorePayments = () => {
     visiblePayments.value += 10;
 };
@@ -68,7 +74,7 @@ onMounted(async () => {
     try {
         isLoading.value = true;
         const token = Cookies.get('jwtToken');
-        const response = await axios.get('https://api.okoline.ru/payments', {
+        const response = await refreshAxios.get('/payments', {
             headers: {
                 Accept: 'application/ld+json',
                 Authorization: `Bearer ${token}`,
@@ -111,6 +117,26 @@ onMounted(async () => {
         background-color: darken(rgb(64, 158, 255), 20%)
 
 
+.payment-table
+    width: 100%
+    border-collapse: collapse
+    margin-bottom: 20px
+
+
+.payment-table th,
+.payment-table td
+    padding: 8px
+    text-align: left
+    border-bottom: 1px solid #ccc
+
+
+.payment-table
+    border-radius: 12px
+    box-shadow: 0 4px 16px rgba(0, 51, 153, .04), 0 2px 2px rgba(0, 51, 153, .08)
+    background-color: #ffffff
+    padding: 20px
+
+
 .loader
     border: 4px solid #f3f3f3
     border-top: 4px solid #3498db
@@ -125,6 +151,9 @@ onMounted(async () => {
             transform: rotate(0deg)
         100%
             transform: rotate(360deg)
+
+.amount
+    color: green
 
 .payments
     display: flex
@@ -151,7 +180,6 @@ onMounted(async () => {
     padding: 5px 15px
     justify-content: space-between
     border-radius: 12px
-    box-shadow: 0 4px 16px rgba(0, 51, 153, .04), 0 2px 2px rgba(0, 51, 153, .08)
     transition: .3s
 
     &:hover

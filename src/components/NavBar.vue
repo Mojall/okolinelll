@@ -10,7 +10,7 @@
                 <!--                >Регистрация</el-button-->
                 <!--                >-->
                 <router-link to="/payment-page">
-                    <el-button v-if="isLoggedIn" class="balance"><strong>{{ balance }}₽</strong></el-button>
+                    <el-button v-if="isLoggedIn" class="balance"><strong>{{ formatAmount(userTariff.amount) }}₽</strong></el-button>
                 </router-link>
                 <el-button v-if="!isLoggedIn" class="form-btn" @click="isLoginForm"
                 >Вход
@@ -32,6 +32,8 @@ import { useStore } from 'vuex';
 import { isLoggedIn } from '../main.js';
 import { fetchData } from '../api/api.js';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import { formatAmount } from '../utils/utils.js';
 
 const { emit } = getCurrentInstance();
 const router = useRouter();
@@ -39,6 +41,10 @@ const store = useStore();
 
 const isCollapse = ref(true);
 
+const token = Cookies.get('jwtToken');
+const decodeToken = jwtDecode(token);
+const { user_data } = decodeToken;
+const userTariff = user_data;
 
 const logout = () => {
     store.commit('setLoggedIn', false);

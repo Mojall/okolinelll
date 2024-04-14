@@ -2,75 +2,65 @@
     <div class="container">
         <h1>Хостинг сайта</h1>
         <div class="tariff-info">
-            <h2>Текущий тариф: {{ activeTariff.name }}</h2>
-        </div>
-        <div class="tab-container">
-            <div
-                v-for="tariff in tariffs"
-                :key="tariff.id"
-                :class="[
-          'tab',
-          {
-            active: tariff.id === activeTariffId,
-            inactive: tariff.id !== activeTariffId,
-          },
-        ]"
-                @click="selectTariff(tariff.id)"
-                :disabled="tariff.id !== activeTariffId"
-            >
-                {{ tariff.name }}
-            </div>
+            <h2>Текущий тариф: {{ userTariff.name }}</h2>
         </div>
         <ul class="hardware-info-list">
-            <li class="hardware-info-item">CPU: {{ activeTariff.cpu }}</li>
-            <li class="hardware-info-item">RAM: {{ activeTariff.ram }}</li>
-            <li class="hardware-info-item">Диск: {{ activeTariff.disk }}</li>
-            <li class="hardware-info-item">
-                Количество дисков: {{ activeTariff.diskCount }}
-            </li>
+            <li class="hardware-info-item">CPU: {{ userTariff.cpuCoresCount }} {{ pluralizeCores(userTariff.cpuCoresCount) }}</li>
+            <li class="hardware-info-item">RAM: {{ userTariff.ramInGb }} ГБ</li>
+            <li v-if="userTariff.hardInMb !== null" class="hardware-info-item">HDD: {{ userTariff.hardInMb }} Гб</li>
+            <li v-if="userTariff.ssdInGb !== null" class="hardware-info-item">SDD: {{ userTariff.ssdInGb }} Гб</li>
         </ul>
         <div class="hardware-info-item">
             <h3>Информация о сервере</h3>
-            <p>CPU: {{ activeTariff.cpu }}</p>
-            <p>RAM: {{ activeTariff.ram }}</p>
-            <p>Диск: {{ activeTariff.disk }}</p>
-            <p>Количество дисков: {{ activeTariff.diskCount }}</p>
+            <p>CPU: {{ userTariff.cpuCoresCount }} {{ pluralizeCores(userTariff.cpuCoresCount) }}</p>
+            <p>RAM: {{ userTariff.ramInGb }}</p>
+            <p v-if="userTariff.hardInMb !== null">HDD: {{ userTariff.hardInMb }} Гб</p>
+            <p v-if="userTariff.ssdInGb !== null">SSD: {{ userTariff.ssdInGb }} Гб</p>
+            <p>IP: {{ userTariff.ipCount }} </p>
+        </div>
+        <h2>Другие тарифы</h2>
+        <div class="hardware-info-list">
+            <div v-for="tariff in tariffs" :key="tariff['@id']" class="hardware-info-item">
+                <h3>{{ tariff.name }}</h3>
+                <p>Цена: {{ formatAmount(tariff.amount) }}</p>
+                <p>CPU: {{ tariff.specs.cpuCoresCount }} {{ pluralizeCores(tariff.specs.cpuCoresCount) }}</p>
+                <p v-if="tariff.specs.hardInGb !== null">HDD: {{ tariff.specs.hardInGb }} Гб</p>
+                <p v-if="tariff.specs.ssdInGb !== null">SDD: {{ tariff.specs.ssdInGb }} Гб</p>
+                <p>IP: {{ tariff.specs.ipCount }}</p>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { fetchData } from '../api/api.js';
+import { refreshAxios } from '../api/api.js';
 import { ref, onMounted } from 'vue';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import { formatAmount, pluralizeCores } from '../utils/utils.js';
 
-const activeTariffId = ref(1);
-const activeTariff = ref({});
-const cpu = ref('');
-const ram = ref('');
-const disk = ref('');
-const diskCount = ref('');
 const tariffs = ref([]);
+
+
+const token = Cookies.get('jwtToken');
+
+const decodeToken = jwtDecode(token);
+
+const { tariff_data } = decodeToken;
+
+const userTariff = tariff_data.specs;
+
 
 onMounted(async () => {
     try {
-        const data = await fetchData();
-        tariffs.value = data.tariffs;
-        activeTariff.value = data.tariffs.find(
-            (tariff) => tariff.id === activeTariffId.value,
-        );
-        cpu.value = data.cpu;
-        ram.value = data.ram;
-        disk.value = data.disk;
-        diskCount.value = data.diskCount;
+        const response = await refreshAxios.get('/tariffs');
+        const data = response.data;
+        tariffs.value = data['hydra:member'];
     } catch (error) {
-        console.error('Ошибка при получении данных:', error);
+        console.log('Ошибка при получении списка тарифов:', error);
     }
 });
 
-const selectTariff = (tariffId) => {
-    activeTariffId.value = tariffId;
-    activeTariff.value = tariffs.value.find((tariff) => tariff.id === tariffId);
-};
 </script>
 
 
@@ -89,12 +79,13 @@ const selectTariff = (tariffId) => {
 
 .hardware-info-list
     display: flex
+    flex-wrap: wrap
     padding: 0
     gap: 50px
 
 .hardware-info-item
     margin-top: 20px
-    padding: 50px
+    padding: 10px 50px
     border-radius: 15px
     width: max-content
     list-style-type: none
