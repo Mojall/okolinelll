@@ -19,6 +19,7 @@
             <p>IP: {{ userTariff.ipCount }} </p>
         </div>
         <h2>Другие тарифы</h2>
+        <div v-if="isLoading" class="loader"></div>
         <div class="hardware-info-list">
             <div v-for="tariff in tariffs" :key="tariff['@id']" class="hardware-info-item">
                 <h3>{{ tariff.name }}</h3>
@@ -40,22 +41,21 @@ import { jwtDecode } from 'jwt-decode';
 import { formatAmount, pluralizeCores } from '../utils/utils.js';
 
 const tariffs = ref([]);
-
+const isLoading = ref(false);
 
 const token = Cookies.get('jwtToken');
-
 const decodeToken = jwtDecode(token);
-
 const { tariff_data } = decodeToken;
-
 const userTariff = tariff_data.specs;
 
 
 onMounted(async () => {
     try {
+        isLoading.value = true;
         const response = await refreshAxios.get('/tariffs');
         const data = response.data;
         tariffs.value = data['hydra:member'];
+        isLoading.value = false;
     } catch (error) {
         console.log('Ошибка при получении списка тарифов:', error);
     }
@@ -125,5 +125,20 @@ p
 
 .tab.active
     border-color: blue
+
+.loader
+    border: 4px solid #f3f3f3
+    border-top: 4px solid #3498db
+    border-radius: 50%
+    width: 30px
+    height: 30px
+    animation: spin 1s linear infinite
+    margin: 50px auto
+
+    @keyframes spin
+        0%
+            transform: rotate(0deg)
+        100%
+            transform: rotate(360deg)
 
 </style>
