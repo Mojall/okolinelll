@@ -54,12 +54,20 @@ const loginForm = async () => {
 
         return true;
     } catch (error) {
-        const errorMessage = error.response.data.title;
-        ElNotification({
-            title: 'Ошибка',
-            message: errorMessage,
-            type: 'error',
-        });
+        if (error.response) {
+            const errorMessage = error.response.data.title;
+            ElNotification({
+                title: 'Ошибка',
+                message: errorMessage,
+                type: 'error',
+            });
+        } else {
+            ElNotification({
+                title: 'Ошибка',
+                message: 'Нет доступа к серверу',
+                type: 'error',
+            });
+        }
 
         throw error;
     }

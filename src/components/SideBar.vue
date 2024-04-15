@@ -1,13 +1,16 @@
 <template>
     <div class="sidebar">
         <el-menu
-            default-active="1"
             class="el-menu-vertical-demo"
             :collapse="isCollapse"
             style="height: 100vh"
+            :default-active="getActiveMenuIndex()"
         >
             <router-link to="/account-status" exact>
-                <el-menu-item index="1">
+                <el-menu-item
+                    index="1"
+                    :class="{ 'is-active': isActive('/account-status') }"
+                >
                     <el-icon>
                         <Money/>
                     </el-icon>
@@ -15,21 +18,24 @@
                 </el-menu-item>
             </router-link>
             <router-link to="/payment-page" exact>
-                <el-menu-item index="2">
+                <el-menu-item
+                    index="2"
+                    :class="{ 'is-active': isActive('/payment-page') }"
+                >
                     <el-icon>
                         <CreditCard/>
                     </el-icon>
                     <template #title>Окно оплаты</template>
                 </el-menu-item>
             </router-link>
-            <el-menu-item index="3">
+            <el-menu-item disabled index="3">
                 <el-icon>
                     <Cpu/>
                 </el-icon>
                 <template #title>Консоль</template>
             </el-menu-item>
             <a :href="telegramLink" target="_blank">
-                <el-menu-item index="4">
+                <el-menu-item index="4" class="active-icon">
                     <el-icon>
                         <Promotion/>
                     </el-icon>
@@ -41,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
+import { defineProps, getCurrentInstance } from 'vue';
 import { Cpu, CreditCard, Money, Promotion } from '@element-plus/icons-vue';
 
 
@@ -54,10 +60,35 @@ const props = defineProps({
     },
 });
 
+const instance = getCurrentInstance();
+
+const isActive = (routePath: string) => {
+    if (instance?.proxy?.$route) {
+        return instance.proxy.$route.path === routePath;
+    }
+
+    return false;
+};
+
+const getActiveMenuIndex = () => {
+    if (instance?.proxy?.$route) {
+        const path = instance.proxy.$route.path;
+        if (path === '/account-status') {
+            return '1';
+        } else if (path === '/payment-page') {
+            return '2';
+        }
+    }
+    return '';
+};
 
 </script>
 
+
 <style lang="sass" scoped>
+
+.active-icon
+    color: black
 
 .sidebar
     max-width: 10%

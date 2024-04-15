@@ -5,28 +5,67 @@
             <h2>Текущий тариф: {{ userTariff.name }}</h2>
         </div>
         <ul class="hardware-info-list">
-            <li class="hardware-info-item">CPU: {{ userTariff.cpuCoresCount }} {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}</li>
-            <li class="hardware-info-item">RAM: {{ userTariff.ramInGb }} ГБ</li>
-            <li v-if="userTariff.hardInMb !== null" class="hardware-info-item">HDD: {{ userTariff.hardInMb }} Гб</li>
-            <li v-if="userTariff.ssdInGb !== null" class="hardware-info-item">SDD: {{ userTariff.ssdInGb }} Гб</li>
+            <li v-if="userTariff.cpuCoresCount !== null" class="hardware-info-item">
+                CPU: {{ userTariff.cpuCoresCount }}
+                {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}
+            </li>
+            <li v-if="userTariff.ramInGb !== null" class="hardware-info-item">
+                RAM: {{ userTariff.ramInGb }} ГБ
+            </li>
+            <li v-if="userTariff.hardInMb !== null" class="hardware-info-item">
+                HDD: {{ userTariff.hardInMb }} Гб
+            </li>
+            <li v-if="userTariff.ssdInGb !== null" class="hardware-info-item">
+                SDD: {{ userTariff.ssdInGb }} Гб
+            </li>
+            <li v-if="userTariff.ipCount !== null" class="hardware-info-item">
+                IP: {{ userTariff.ipCount }}
+            </li>
         </ul>
         <div class="hardware-info-item">
             <h3>Информация о сервере</h3>
-            <p>CPU: {{ userTariff.cpuCoresCount }} {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}</p>
-            <p>RAM: {{ userTariff.ramInGb }}</p>
-            <p v-if="userTariff.hardInMb !== null">HDD: {{ userTariff.hardInMb }} Гб</p>
+            <p v-if="userTariff.cpuCoresCount !== null">
+                CPU: {{ userTariff.cpuCoresCount }}
+                {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}
+            </p>
+            <p v-if="userTariff.ramInGb !== null">RAM: {{ userTariff.ramInGb }}</p>
+            <p v-if="userTariff.hardInMb !== null">
+                HDD: {{ userTariff.hardInMb }} Гб
+            </p>
             <p v-if="userTariff.ssdInGb !== null">SSD: {{ userTariff.ssdInGb }} Гб</p>
-            <p>IP: {{ userTariff.ipCount }} </p>
+            <p v-if="userTariff.ipCount !== null">IP: {{ userTariff.ipCount }}</p>
+            <p
+                v-if="
+          userTariff.cpuCoresCount === null &&
+          userTariff.ramInGb === null &&
+          userTariff.hardInMb === null &&
+          userTariff.ssdInGb === null &&
+          userTariff.ipCount === null
+        "
+            >
+                Нет доступной информации об сервере
+            </p>
         </div>
         <h2>Другие тарифы</h2>
         <div v-if="isLoading" class="loader"></div>
         <div class="hardware-info-list">
-            <div v-for="tariff in tariffs" :key="tariff['@id']" class="hardware-info-item">
+            <div
+                v-for="tariff in tariffs"
+                :key="tariff['@id']"
+                class="hardware-info-item"
+            >
                 <h3>{{ tariff.name }}</h3>
                 <p>Цена: {{ formatAmount(tariff.amount) }}</p>
-                <p>CPU: {{ tariff.specs.cpuCoresCount }} {{ pluralize(tariff.specs.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}</p>
-                <p v-if="tariff.specs.hardInGb !== null">HDD: {{ tariff.specs.hardInGb }} Гб</p>
-                <p v-if="tariff.specs.ssdInGb !== null">SDD: {{ tariff.specs.ssdInGb }} Гб</p>
+                <p>
+                    CPU: {{ tariff.specs.cpuCoresCount }}
+                    {{ pluralize(tariff.specs.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}
+                </p>
+                <p v-if="tariff.specs.hardInGb !== null">
+                    HDD: {{ tariff.specs.hardInGb }} Гб
+                </p>
+                <p v-if="tariff.specs.ssdInGb !== null">
+                    SDD: {{ tariff.specs.ssdInGb }} Гб
+                </p>
                 <p>IP: {{ tariff.specs.ipCount }}</p>
             </div>
         </div>
@@ -48,8 +87,6 @@ const decodeToken = jwtDecode(token);
 const { tariff_data } = decodeToken;
 const userTariff = tariff_data.specs;
 
-
-
 onMounted(async () => {
     try {
         isLoading.value = true;
@@ -61,9 +98,7 @@ onMounted(async () => {
         console.log('Ошибка при получении списка тарифов:', error);
     }
 });
-
 </script>
-
 
 <style lang="sass" scoped>
 .container
@@ -141,5 +176,4 @@ p
             transform: rotate(0deg)
         100%
             transform: rotate(360deg)
-
 </style>
