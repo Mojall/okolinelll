@@ -90,7 +90,12 @@ const userTariff = tariff_data.specs;
 onMounted(async () => {
     try {
         isLoading.value = true;
-        const response = await refreshAxios.get('/tariffs');
+        const response = await refreshAxios.get('/tariffs', {
+            headers: {
+                Accept: 'application/ld+json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
         const data = response.data;
         tariffs.value = data['hydra:member'];
         isLoading.value = false;
