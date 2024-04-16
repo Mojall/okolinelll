@@ -28,6 +28,7 @@ const toggleCollapse = () => {
     display: flex
 
 .content
+    height: 100vh
     background-color: rgb(1, 1, 1, 0.03)
     width: 100%
 </style>

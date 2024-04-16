@@ -1,30 +1,32 @@
 <template>
-    <div class="log_container">
-        <h2 class="log-title">Вход</h2>
-        <form @submit.prevent="submitForm">
-            <div class="form-group">
-                <label for="login">Логин</label>
-                <el-input size="large" v-model="form.login" type="text" id="login"/>
-            </div>
-            <div class="form-group">
-                <label for="password">Пароль</label>
-                <el-input
-                    size="large"
-                    v-model="form.password"
-                    type="password"
-                    id="password"
-                />
-            </div>
-            <div class="form-group">
-                <button type="submit">Войти</button>
-            </div>
-        </form>
-        <!--        <p>-->
-        <!--            Нет аккаунта?-->
-        <!--            <router-link class="link" to="/RegisterForm"-->
-        <!--            >Зарегистрироваться</router-link-->
-        <!--            >-->
-        <!--        </p>-->
+    <div class="wrapper">
+        <div class="log_container">
+            <h2 class="log-title">Вход</h2>
+            <form @submit.prevent="submitForm">
+                <div class="form-group">
+                    <label for="login">Логин</label>
+                    <el-input size="large" v-model="form.login" type="text" id="login"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <el-input
+                        size="large"
+                        v-model="form.password"
+                        type="password"
+                        id="password"
+                    />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Войти</button>
+                </div>
+            </form>
+            <!--        <p>-->
+            <!--            Нет аккаунта?-->
+            <!--            <router-link class="link" to="/RegisterForm"-->
+            <!--            >Зарегистрироваться</router-link-->
+            <!--            >-->
+            <!--        </p>-->
+        </div>
     </div>
 </template>
 

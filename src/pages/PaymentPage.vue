@@ -4,7 +4,8 @@
             <p>
                 Баланс: <strong>{{ formatAmount(userTariff.amount) }} ₽</strong>
             </p>
-            <el-button class="btn btn-balance">Пополнить</el-button>
+            <el-input type="number" class="amount" v-model="amount" style="width: 240px" placeholder="Введите сумму" />
+            <el-button class="btn btn-balance" @click="createPaymentLink">Пополнить</el-button>
         </div>
         <div class="payments">
             <h2>История пополнений</h2>
@@ -48,6 +49,7 @@ const token = Cookies.get('jwtToken');
 const decodeToken = jwtDecode(token);
 const { user_data } = decodeToken;
 const userTariff = user_data;
+const amount = ref('')
 
 onMounted(async () => {
     try {
@@ -65,12 +67,32 @@ onMounted(async () => {
         console.error('Ошибка при получении данных:', error);
     }
 });
+const createPaymentLink = async () => {
+    try {
+        const response = await refreshAxios.post('/payments', {
+            amount: parseFloat(amount.value)
+        }, {
+            headers: {
+                Accept: 'application/ld+json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const paymentUrl = response.data.url;
+        window.open(paymentUrl, '_blank');
+    } catch (error) {
+        console.error('Ошибка при создании ссылки на пополнение:', error);
+    }
+};
 </script>
 
 <style lang="sass" scoped>
 @import "../assets/styles/main"
 .container
     margin: 20px
+
+.amount
+    margin-right: 10px
 
 .btn
     border: none
