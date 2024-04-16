@@ -40,6 +40,7 @@ import { refreshAxios } from '../api/api.js';
 import Cookies from 'js-cookie';
 import { formatAmount, formatDate, formatTableAmount } from '../utils/utils.js';
 import { jwtDecode } from 'jwt-decode';
+import { ElNotification } from 'element-plus';
 
 const payments = ref([]);
 const balance = ref('');
@@ -69,6 +70,14 @@ onMounted(async () => {
 });
 const createPaymentLink = async () => {
     try {
+        if (!amount.value) {
+            ElNotification({
+                title: 'Ошибка',
+                message: 'Введите сумму пополнения',
+                type: 'error',
+            });
+            return;
+        }
         const response = await refreshAxios.post('/payments', {
             amount: parseFloat(amount.value)
         }, {
@@ -81,7 +90,11 @@ const createPaymentLink = async () => {
         const paymentUrl = response.data.url;
         window.open(paymentUrl, '_blank');
     } catch (error) {
-        console.error('Ошибка при создании ссылки на пополнение:', error);
+        ElNotification({
+            title: 'Ошибка',
+            message: 'Ошибка при создании ссылки на пополнение',
+            type: 'error'
+        })
     }
 };
 </script>
