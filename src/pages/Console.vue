@@ -20,10 +20,9 @@ const openConsoleAndFetchUrl = async () => {
 const fetchConsoleUrl = () => {
     if (jwtToken) {
         const decodedToken = jwtDecode(jwtToken);
-        const domain = "pve.okoline.ru";
-        const { pve_vm_id: vmId, pve_node: node } = decodedToken;
+        const { pve_vm_id: vmId, pve_node: node, pve_domain: domain } = decodedToken;
         if (vmId && node) {
-            consoleUrl.value = `https://${domain}/?console=kvm&novnc=1&node=${node}&resize=1&vmid=${vmId}`;
+            consoleUrl.value = `https://pve.${domain}/?console=kvm&novnc=1&node=${node}&resize=1&vmid=${vmId}`;
         }
     }
 };
@@ -32,7 +31,7 @@ const openConsole = async () => {
     if (jwtToken) {
         const response = await fetch('https://okoline.ru/set-cookie/', {
             headers: {
-                'Authorization': `Bearer ${jwtToken}`
+                'Authorization': `Bearer ${jwtToken}`,
             },
         });
 

@@ -32,6 +32,7 @@
                 <el-menu-item
                     index="3"
                     :class="{ 'is-active': isActive('/Console') }"
+                    @click="handleConsoleClick"
                 >
                     <el-icon>
                         <Cpu/>
@@ -54,8 +55,8 @@
 <script lang="ts" setup>
 import { defineProps, getCurrentInstance, ref } from 'vue';
 import { Cpu, CreditCard, Money, Promotion } from '@element-plus/icons-vue';
-import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie';
 
 const telegramLink = import.meta.env.VITE_TELEGRAM_LINK;
 const router = useRouter();
@@ -89,6 +90,14 @@ const getActiveMenuIndex = () => {
         }
     }
     return '';
+};
+
+const handleConsoleClick = () => {
+    const decodedToken = Cookies.get('jwtToken');
+    if (decodedToken.pve_vm_id === null || decodedToken.pve_node === null) {
+        return;
+    }
+    router.push('/Console');
 };
 </script>
 
