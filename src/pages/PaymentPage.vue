@@ -13,7 +13,7 @@
                 ref="tableRef"
                 row-key="date"
                 :data="payments"
-                style="width: 100%"
+                style="width: 99%"
             >
                 <el-table-column
                     prop="date"

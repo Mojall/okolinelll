@@ -28,12 +28,17 @@
                     <template #title>Окно оплаты</template>
                 </el-menu-item>
             </router-link>
-            <el-menu-item disabled index="3">
-                <el-icon>
-                    <Cpu/>
-                </el-icon>
-                <template #title>Консоль</template>
-            </el-menu-item>
+            <router-link to="/Console">
+                <el-menu-item
+                    index="3"
+                    :class="{ 'is-active': isActive('/Console') }"
+                >
+                    <el-icon>
+                        <Cpu/>
+                    </el-icon>
+                    <template #title>Консоль</template>
+                </el-menu-item>
+            </router-link>
             <a :href="telegramLink" target="_blank">
                 <el-menu-item index="4" class="active-icon">
                     <el-icon>
@@ -47,11 +52,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, getCurrentInstance } from 'vue';
+import { defineProps, getCurrentInstance, ref } from 'vue';
 import { Cpu, CreditCard, Money, Promotion } from '@element-plus/icons-vue';
-
+import Cookies from 'js-cookie';
+import { useRouter } from 'vue-router';
 
 const telegramLink = import.meta.env.VITE_TELEGRAM_LINK;
+const router = useRouter();
 
 const props = defineProps({
     isCollapse: {
@@ -77,11 +84,12 @@ const getActiveMenuIndex = () => {
             return '1';
         } else if (path === '/payment-page') {
             return '2';
+        } else if (path === '/Console') {
+            return '3';
         }
     }
     return '';
 };
-
 </script>
 
 
@@ -92,6 +100,7 @@ const getActiveMenuIndex = () => {
 
 .sidebar
     max-width: 10%
+    z-index: 99
 
 a
     text-decoration: none

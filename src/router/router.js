@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MyLogin from '../pages/MyLogin.vue';
 import PaymentPage from '../pages/PaymentPage.vue';
 import AccountStatus from '../pages/AccountStatus.vue';
+import Console from '../pages/Console.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -43,6 +44,13 @@ const router = createRouter({
         {
             path: '/account-status',
             component: AccountStatus,
+            meta: {
+                requiresAuth: true,
+            },
+        },
+        {
+            path: '/console',
+            component: Console,
             meta: {
                 requiresAuth: true,
             },

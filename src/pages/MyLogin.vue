@@ -17,7 +17,12 @@
                     />
                 </div>
                 <div class="form-group">
-                    <button type="submit">Войти</button>
+                    <button type="submit" :disabled="loading">
+                        <span v-if="loading">
+                            <i class="loading-icon el-icon-loading"></i> Загрузка...
+                        </span>
+                        <span v-else>Войти</span>
+                    </button>
                 </div>
             </form>
             <!--        <p>-->
@@ -39,6 +44,7 @@ import { ref } from 'vue';
 
 const router = useRouter();
 const isSubmitting = ref(false);
+const loading = ref(false);
 
 const submitForm = async () => {
     if (isSubmitting.value) {
@@ -46,6 +52,8 @@ const submitForm = async () => {
     }
     try {
         isSubmitting.value = true;
+
+        loading.value = true;
 
         await loginForm();
         resetForm();
@@ -66,6 +74,8 @@ const submitForm = async () => {
     } catch (error) {
     } finally {
         isSubmitting.value = false;
+
+        loading.value = false
     }
 };
 </script>
