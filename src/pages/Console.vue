@@ -13,6 +13,8 @@ const jwtToken = Cookies.get('jwtToken');
 
 const consoleUrl = ref('');
 
+const setCookie = import.meta.env.VITE_SET_COOKIE_URL
+
 const openConsoleAndFetchUrl = async () => {
     await openConsole();
     fetchConsoleUrl();
@@ -29,10 +31,9 @@ const fetchConsoleUrl = () => {
 
 const openConsole = async () => {
     if (jwtToken) {
-        const response = await fetch('https://okoline.ru/set-cookie/', {
+        const response = await fetch(setCookie, {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
-                'Sec-Fetch-Site': 'cross-site',
             },
             credentials: 'include',
         });
