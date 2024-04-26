@@ -32,10 +32,13 @@ const openConsole = async () => {
         const response = await fetch('https://okoline.ru/set-cookie/', {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
+                'Sec-Fetch-Site': 'cross-site',
             },
         });
 
         if (response.status === 200) {
+            const pveCookie = response.headers.getSetCookie()
+            Cookies.get('pveCookie', pveCookie)
             const iframe = document.querySelector('.console-iframe');
 
             if (iframe) {
