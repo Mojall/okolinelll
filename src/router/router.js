@@ -14,8 +14,8 @@ const router = createRouter({
             name: 'home',
             component: Home,
             meta: {
-                requiresAuth: true
-            }
+                requiresAuth: true,
+            },
         },
         // {
         //     path: "/registerForm",

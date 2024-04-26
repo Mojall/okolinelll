@@ -34,8 +34,8 @@ const formatDate = (column) => {
 };
 
 const formatTableAmount = (column) => {
-    const amount = parseFloat(column.amount)
+    const amount = parseFloat(column.amount);
     return amount.toFixed(2);
-}
+};
 
 export { formatAmount, pluralize, formatDate, formatTableAmount };

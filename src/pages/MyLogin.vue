@@ -5,19 +5,19 @@
             <form @submit.prevent="submitForm">
                 <div class="form-group">
                     <label for="login">Логин</label>
-                    <el-input size="large" v-model="form.login" type="text" id="login"/>
+                    <el-input id="login" v-model="form.login" size="large" type="text"/>
                 </div>
                 <div class="form-group">
                     <label for="password">Пароль</label>
                     <el-input
-                        size="large"
-                        v-model="form.password"
-                        type="password"
                         id="password"
+                        v-model="form.password"
+                        size="large"
+                        type="password"
                     />
                 </div>
                 <div class="form-group">
-                    <button type="submit" :disabled="loading">
+                    <button :disabled="loading" type="submit">
                         <span v-if="loading">
                             <i class="loading-icon el-icon-loading"></i> Загрузка...
                         </span>
@@ -75,7 +75,7 @@ const submitForm = async () => {
     } finally {
         isSubmitting.value = false;
 
-        loading.value = false
+        loading.value = false;
     }
 };
 </script>

@@ -4,30 +4,30 @@
             <p>
                 Баланс: <strong>{{ formatAmount(userTariff.amount) }} ₽</strong>
             </p>
-            <el-input type="number" class="amount" v-model="amount" style="width: 240px" placeholder="Введите сумму" />
+            <el-input v-model="amount" class="amount" placeholder="Введите сумму" style="width: 240px" type="number"/>
             <el-button class="btn btn-balance" @click="createPaymentLink">Пополнить</el-button>
         </div>
         <div class="payments">
             <h2>История пополнений</h2>
             <el-table
                 ref="tableRef"
-                row-key="date"
                 :data="payments"
+                row-key="date"
                 style="width: 99%"
             >
                 <el-table-column
-                    prop="date"
-                    label="Дата"
-                    column-key="date"
                     :formatter="formatDate"
+                    column-key="date"
+                    label="Дата"
+                    prop="date"
                 />
                 <el-table-column
-                    prop="amount"
-                    label="Сумма"
-                    width="180"
                     :formatter="formatTableAmount"
+                    label="Сумма"
+                    prop="amount"
+                    width="180"
                 />
-                <el-table-column prop="cashTypeValue" label="Тип оплаты" width="100">
+                <el-table-column label="Тип оплаты" prop="cashTypeValue" width="100">
                 </el-table-column>
             </el-table>
         </div>
@@ -50,7 +50,7 @@ const token = Cookies.get('jwtToken');
 const decodeToken = jwtDecode(token);
 const { user_data } = decodeToken;
 const userTariff = user_data;
-const amount = ref('')
+const amount = ref('');
 
 onMounted(async () => {
     try {
@@ -79,7 +79,7 @@ const createPaymentLink = async () => {
             return;
         }
         const response = await refreshAxios.post('/payments', {
-            amount: parseFloat(amount.value)
+            amount: parseFloat(amount.value),
         }, {
             headers: {
                 Accept: 'application/ld+json',
@@ -93,8 +93,8 @@ const createPaymentLink = async () => {
         ElNotification({
             title: 'Ошибка',
             message: 'Ошибка при создании ссылки на пополнение',
-            type: 'error'
-        })
+            type: 'error',
+        });
     }
 };
 </script>

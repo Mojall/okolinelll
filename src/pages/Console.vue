@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <iframe :src="consoleUrl" width="100%" height="100%" frameborder="0"></iframe>
+        <iframe :src="consoleUrl" frameborder="0" height="100%" width="100%"></iframe>
     </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+<script lang="ts" setup>
+import { onMounted, ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
@@ -13,7 +13,7 @@ const jwtToken = Cookies.get('jwtToken');
 
 const consoleUrl = ref('');
 
-const setCookie = import.meta.env.VITE_SET_COOKIE_URL
+const setCookie = import.meta.env.VITE_SET_COOKIE_URL;
 
 const openConsoleAndFetchUrl = async () => {
     await openConsole();
@@ -39,22 +39,10 @@ const openConsole = async () => {
         });
 
         if (response.status === 200) {
-            const setCookieHeader = response.headers.get('Set-Cookie');
-            if (setCookieHeader) {
-                const cookiesArray = setCookieHeader.split(',');
 
-                cookiesArray.forEach(cookie => {
-                    const cookieParts = cookie.split(';')[0].split('=');
-                    const cookieName = cookieParts[0].trim();
-                    const cookieValue = cookieParts[1].trim();
-
-                    Cookies.set(cookieName, cookieValue);
-                });
-
-                const iframe = document.querySelector('.console-iframe');
-                if (iframe) {
-                    iframe.src = consoleUrl.value;
-                }
+            const iframe = document.querySelector('.console-iframe');
+            if (iframe) {
+                iframe.src = consoleUrl.value;
             }
         }
     }

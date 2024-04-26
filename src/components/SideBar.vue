@@ -1,15 +1,15 @@
 <template>
     <div class="sidebar">
         <el-menu
-            class="el-menu-vertical-demo"
             :collapse="isCollapse"
-            style="height: 100vh"
             :default-active="getActiveMenuIndex()"
+            class="el-menu-vertical-demo"
+            style="height: 100vh"
         >
-            <router-link to="/account-status" exact>
+            <router-link exact to="/account-status">
                 <el-menu-item
-                    index="1"
                     :class="{ 'is-active': isActive('/account-status') }"
+                    index="1"
                 >
                     <el-icon>
                         <Money/>
@@ -17,10 +17,10 @@
                     <template #title>Статус счёта</template>
                 </el-menu-item>
             </router-link>
-            <router-link to="/payment-page" exact>
+            <router-link exact to="/payment-page">
                 <el-menu-item
-                    index="2"
                     :class="{ 'is-active': isActive('/payment-page') }"
+                    index="2"
                 >
                     <el-icon>
                         <CreditCard/>
@@ -30,8 +30,8 @@
             </router-link>
             <router-link to="/console">
                 <el-menu-item
-                    index="3"
                     :class="{ 'is-active': isActive('/console') }"
+                    index="3"
                     @click="handleConsoleClick"
                 >
                     <el-icon>
@@ -41,7 +41,7 @@
                 </el-menu-item>
             </router-link>
             <a :href="telegramLink" target="_blank">
-                <el-menu-item index="4" class="active-icon">
+                <el-menu-item class="active-icon" index="4">
                     <el-icon>
                         <Promotion/>
                     </el-icon>
@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, getCurrentInstance, ref } from 'vue';
+import { defineProps, getCurrentInstance } from 'vue';
 import { Cpu, CreditCard, Money, Promotion } from '@element-plus/icons-vue';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
@@ -110,6 +110,7 @@ const handleConsoleClick = () => {
 .sidebar
     max-width: 10%
     z-index: 99
+
 a
     text-decoration: none
 

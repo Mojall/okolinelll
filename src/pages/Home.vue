@@ -3,7 +3,7 @@
         <h2>Данные пользователя</h2>
         <div class="account-info-card">
             <p><strong>Полное имя:</strong> {{ user_data.fullName }}</p>
-            <p><strong>Тариф:</strong> {{ tariff_data._tariff["Тарифный план интернет"] }}</p>
+            <p><strong>Тариф:</strong> {{ tariff_data._tariff['Тарифный план интернет'] }}</p>
             <p><strong>Полный адрес:</strong> {{ tariff_data.fullAddress }}</p>
         </div>
     </div>
@@ -15,8 +15,8 @@ import { jwtDecode } from 'jwt-decode';
 
 const token = Cookies.get('jwtToken');
 const accountInfo = jwtDecode(token);
-const { user_data } = accountInfo
-const { tariff_data } = accountInfo
+const { user_data } = accountInfo;
+const { tariff_data } = accountInfo;
 </script>
 
 

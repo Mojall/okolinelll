@@ -74,7 +74,7 @@
 
 <script setup>
 import { refreshAxios } from '../api/api.js';
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { formatAmount, pluralize } from '../utils/utils.js';

@@ -2,7 +2,7 @@
     <div class="container">
         <header class="header">
             <div class="left-btns">
-                <button @click="toggleCollapse" class="menu-btn"></button>
+                <button class="menu-btn" @click="toggleCollapse"></button>
                 <router-link class="link logo" to="/">OKOLINE</router-link>
             </div>
             <div class="nav-btns">
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, onMounted, ref } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { isLoggedIn } from '../main.js';

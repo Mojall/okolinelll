@@ -6,45 +6,45 @@
             <div class="form-group">
                 <label for="email">Почта</label>
                 <el-input
-                    size="large"
-                    v-model="regForm.email"
-                    type="email"
                     id="email"
+                    v-model="regForm.email"
                     clearable
+                    size="large"
+                    type="email"
                 />
             </div>
             <div class="form-group">
                 <label for="username">Имя пользователя</label>
                 <el-input
-                    size="large"
-                    minlength="6"
-                    v-model="regForm.username"
-                    type="text"
                     id="username"
+                    v-model="regForm.username"
                     clearable
+                    minlength="6"
+                    size="large"
+                    type="text"
                 />
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <el-input
-                    minlength="8"
-                    size="large"
-                    v-model="regForm.password"
-                    show-password
-                    type="password"
                     id="password"
+                    v-model="regForm.password"
                     clearable
+                    minlength="8"
+                    show-password
+                    size="large"
+                    type="password"
                 />
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Подтверждение пароля</label>
                 <el-input
-                    size="large"
-                    v-model="regForm.confirmPassword"
-                    show-password
-                    type="password"
                     id="confirmPassword"
+                    v-model="regForm.confirmPassword"
                     clearable
+                    show-password
+                    size="large"
+                    type="password"
                 />
             </div>
             <div class="form-group">
@@ -56,15 +56,9 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import {
-    required,
-    minLength,
-    email,
-    sameAs,
-    helpers,
-} from '@vuelidate/validators';
+import { email, minLength, required, sameAs } from '@vuelidate/validators';
 import { ElNotification } from 'element-plus';
 import router from '../router/router.js';
 import { useRouter } from 'vue-router';
