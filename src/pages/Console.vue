@@ -34,6 +34,7 @@ const openConsole = async () => {
                 'Authorization': `Bearer ${jwtToken}`,
                 'Sec-Fetch-Site': 'cross-site',
             },
+            credentials: 'include',
         });
 
         if (response.status === 200) {
@@ -46,7 +47,7 @@ const openConsole = async () => {
                     const cookieName = cookieParts[0].trim();
                     const cookieValue = cookieParts[1].trim();
 
-                    Cookies.set(cookieName, cookieValue); // Сохранение значения в куках
+                    Cookies.set(cookieName, cookieValue);
                 });
 
                 const iframe = document.querySelector('.console-iframe');
