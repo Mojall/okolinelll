@@ -28,10 +28,10 @@
                     <template #title>Окно оплаты</template>
                 </el-menu-item>
             </router-link>
-            <router-link to="/Console">
+            <router-link to="/console">
                 <el-menu-item
                     index="3"
-                    :class="{ 'is-active': isActive('/Console') }"
+                    :class="{ 'is-active': isActive('/console') }"
                     @click="handleConsoleClick"
                 >
                     <el-icon>
@@ -85,7 +85,7 @@ const getActiveMenuIndex = () => {
             return '1';
         } else if (path === '/payment-page') {
             return '2';
-        } else if (path === '/Console') {
+        } else if (path === '/console') {
             return '3';
         }
     }
@@ -97,7 +97,7 @@ const handleConsoleClick = () => {
     if (decodedToken.pve_vm_id === null || decodedToken.pve_node === null) {
         return;
     }
-    router.push('/Console');
+    router.push('/console');
 };
 </script>
 
@@ -110,7 +110,6 @@ const handleConsoleClick = () => {
 .sidebar
     max-width: 10%
     z-index: 99
-
 a
     text-decoration: none
 
