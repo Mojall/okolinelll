@@ -37,12 +37,22 @@ const openConsole = async () => {
         });
 
         if (response.status === 200) {
-            const pveCookie = response.headers.getSetCookie()
-            Cookies.get('pveCookie', pveCookie)
-            const iframe = document.querySelector('.console-iframe');
+            const setCookieHeader = response.headers.get('Set-Cookie');
+            if (setCookieHeader) {
+                const cookiesArray = setCookieHeader.split(',');
 
-            if (iframe) {
-                iframe.src = consoleUrl.value;
+                cookiesArray.forEach(cookie => {
+                    const cookieParts = cookie.split(';')[0].split('=');
+                    const cookieName = cookieParts[0].trim();
+                    const cookieValue = cookieParts[1].trim();
+
+                    Cookies.set(cookieName, cookieValue); // Сохранение значения в куках
+                });
+
+                const iframe = document.querySelector('.console-iframe');
+                if (iframe) {
+                    iframe.src = consoleUrl.value;
+                }
             }
         }
     }
