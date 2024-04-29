@@ -39,5 +39,4 @@ const formatTableAmount = (column) => {
 };
 
 
-
 export { formatAmount, pluralize, formatDate, formatTableAmount };

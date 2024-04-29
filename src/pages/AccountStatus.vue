@@ -42,29 +42,29 @@
                 Нет доступной информации об сервере
             </p>
         </div>
-<!--        <h2>Другие тарифы</h2>-->
-<!--        <div v-if="isLoading" class="loader"></div>-->
-<!--        <div class="hardware-info-list">-->
-<!--            <div-->
-<!--                v-for="tariff in tariffs"-->
-<!--                :key="tariff['@id']"-->
-<!--                class="hardware-info-item"-->
-<!--            >-->
-<!--                <h3>{{ tariff.name }}</h3>-->
-<!--                <p>Цена: {{ formatAmount(tariff.amount) }}</p>-->
-<!--                <p>-->
-<!--                    CPU: {{ tariff.specs.cpuCoresCount }}-->
-<!--                    {{ pluralize(tariff.specs.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}-->
-<!--                </p>-->
-<!--                <p v-if="tariff.specs.ramInGb !== null">-->
-<!--                    RAM: {{ tariff.specs.ramInGb }} Гб-->
-<!--                </p>-->
-<!--                <p v-if="tariff.specs.ssdInGb !== null">-->
-<!--                    SDD: {{ tariff.specs.ssdInGb }} Гб-->
-<!--                </p>-->
-<!--                <p>IP: {{ tariff.specs.ipCount }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <h2>Другие тарифы</h2>-->
+        <!--        <div v-if="isLoading" class="loader"></div>-->
+        <!--        <div class="hardware-info-list">-->
+        <!--            <div-->
+        <!--                v-for="tariff in tariffs"-->
+        <!--                :key="tariff['@id']"-->
+        <!--                class="hardware-info-item"-->
+        <!--            >-->
+        <!--                <h3>{{ tariff.name }}</h3>-->
+        <!--                <p>Цена: {{ formatAmount(tariff.amount) }}</p>-->
+        <!--                <p>-->
+        <!--                    CPU: {{ tariff.specs.cpuCoresCount }}-->
+        <!--                    {{ pluralize(tariff.specs.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}-->
+        <!--                </p>-->
+        <!--                <p v-if="tariff.specs.ramInGb !== null">-->
+        <!--                    RAM: {{ tariff.specs.ramInGb }} Гб-->
+        <!--                </p>-->
+        <!--                <p v-if="tariff.specs.ssdInGb !== null">-->
+        <!--                    SDD: {{ tariff.specs.ssdInGb }} Гб-->
+        <!--                </p>-->
+        <!--                <p>IP: {{ tariff.specs.ipCount }}</p>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </template>
 
@@ -73,7 +73,7 @@ import { refreshAxios } from '../api/api.js';
 import { onMounted, ref } from 'vue';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import { pluralize, formatAmount } from '../utils/utils.js';
+import { pluralize } from '../utils/utils.js';
 
 const tariffs = ref([]);
 const isLoading = ref(false);
@@ -86,7 +86,6 @@ const decodeToken = jwtDecode(token);
 const { tariff_data } = decodeToken;
 const userTariff = tariff_data.specs;
 const userTariffName = tariff_data.specs.name;
-
 
 
 onMounted(async () => {
