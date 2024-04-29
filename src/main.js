@@ -1,4 +1,5 @@
 import './assets/styles/main.sass';
+import './assets/styles/fonts.css'
 import { computed, createApp } from 'vue';
 import store from './store/store';
 

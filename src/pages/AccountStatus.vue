@@ -1,29 +1,25 @@
 <template>
     <div class="container">
-        <h1>Хостинг сайта</h1>
+        <h1>Информация о сервере</h1>
         <div class="tariff-info">
-            <h2>Текущий тариф: {{ userTariff.name }}</h2>
+            <h2>Текущий тариф: {{ getTariffName(userTariff.name) }}</h2>
         </div>
         <ul class="hardware-info-list">
-            <li v-if="userTariff.cpuCoresCount !== null" class="hardware-info-item">
-                CPU: {{ userTariff.cpuCoresCount }}
-                {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}
+            <li v-if="getTariffDescription(userTariff.name).cpu !== null" class="hardware-info-item">
+                CPU: {{ getTariffDescription(userTariff.name).cpu }}
             </li>
-            <li v-if="userTariff.ramInGb !== null" class="hardware-info-item">
-                RAM: {{ userTariff.ramInGb }} ГБ
+            <li v-if="getTariffDescription(userTariff.name).ram !== null" class="hardware-info-item">
+                RAM: {{ getTariffDescription(userTariff.name).ram }}
             </li>
-            <li v-if="userTariff.hardInMb !== null" class="hardware-info-item">
-                HDD: {{ userTariff.hardInMb }} Гб
+            <li v-if="getTariffDescription(userTariff.name).ssd !== null" class="hardware-info-item">
+                SDD: {{ getTariffDescription(userTariff.name).ssd }}
             </li>
-            <li v-if="userTariff.ssdInGb !== null" class="hardware-info-item">
-                SDD: {{ userTariff.ssdInGb }} Гб
-            </li>
-            <li v-if="userTariff.ipCount !== null" class="hardware-info-item">
-                IP: {{ userTariff.ipCount }}
+            <li v-if="getTariffDescription(userTariff.name).ip !== null" class="hardware-info-item">
+                IP: {{ getTariffDescription(userTariff.name).ip }}
             </li>
         </ul>
         <div class="hardware-info-item">
-            <h3>Информация о сервере</h3>
+            <h3>Дополнительно</h3>
             <p v-if="userTariff.cpuCoresCount !== null">
                 CPU: {{ userTariff.cpuCoresCount }}
                 {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}
@@ -46,29 +42,29 @@
                 Нет доступной информации об сервере
             </p>
         </div>
-        <h2>Другие тарифы</h2>
-        <div v-if="isLoading" class="loader"></div>
-        <div class="hardware-info-list">
-            <div
-                v-for="tariff in tariffs"
-                :key="tariff['@id']"
-                class="hardware-info-item"
-            >
-                <h3>{{ tariff.name }}</h3>
-                <p>Цена: {{ formatAmount(tariff.amount) }}</p>
-                <p>
-                    CPU: {{ tariff.specs.cpuCoresCount }}
-                    {{ pluralize(tariff.specs.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}
-                </p>
-                <p v-if="tariff.specs.hardInGb !== null">
-                    HDD: {{ tariff.specs.hardInGb }} Гб
-                </p>
-                <p v-if="tariff.specs.ssdInGb !== null">
-                    SDD: {{ tariff.specs.ssdInGb }} Гб
-                </p>
-                <p>IP: {{ tariff.specs.ipCount }}</p>
-            </div>
-        </div>
+<!--        <h2>Другие тарифы</h2>-->
+<!--        <div v-if="isLoading" class="loader"></div>-->
+<!--        <div class="hardware-info-list">-->
+<!--            <div-->
+<!--                v-for="tariff in tariffs"-->
+<!--                :key="tariff['@id']"-->
+<!--                class="hardware-info-item"-->
+<!--            >-->
+<!--                <h3>{{ tariff.name }}</h3>-->
+<!--                <p>Цена: {{ formatAmount(tariff.amount) }}</p>-->
+<!--                <p>-->
+<!--                    CPU: {{ tariff.specs.cpuCoresCount }}-->
+<!--                    {{ pluralize(tariff.specs.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}-->
+<!--                </p>-->
+<!--                <p v-if="tariff.specs.hardInGb !== null">-->
+<!--                    HDD: {{ tariff.specs.hardInGb }} Гб-->
+<!--                </p>-->
+<!--                <p v-if="tariff.specs.ssdInGb !== null">-->
+<!--                    SDD: {{ tariff.specs.ssdInGb }} Гб-->
+<!--                </p>-->
+<!--                <p>IP: {{ tariff.specs.ipCount }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </template>
 
@@ -77,7 +73,7 @@ import { refreshAxios } from '../api/api.js';
 import { onMounted, ref } from 'vue';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import { formatAmount, pluralize } from '../utils/utils.js';
+import { pluralize, getTariffName, getTariffDescription } from '../utils/utils.js';
 
 const tariffs = ref([]);
 const isLoading = ref(false);
@@ -86,6 +82,7 @@ const token = Cookies.get('jwtToken');
 const decodeToken = jwtDecode(token);
 const { tariff_data } = decodeToken;
 const userTariff = tariff_data.specs;
+
 
 onMounted(async () => {
     try {
@@ -108,7 +105,6 @@ onMounted(async () => {
 <style lang="sass" scoped>
 .container
     margin: 20px
-    font-family: Arial, sans-serif
 
 .tab.inactive
     color: gray

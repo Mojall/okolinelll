@@ -38,4 +38,86 @@ const formatTableAmount = (column) => {
     return amount.toFixed(2);
 };
 
-export { formatAmount, pluralize, formatDate, formatTableAmount };
+const getTariffName = (tariffCode) => {
+    const tariffTable = {
+        "E1": "ЭКО-1",
+        "E2": "ЭКО-2",
+        "E3": "ЭКО-3",
+        "E4": "ЭКО-4",
+        "T1": "ТОП-1",
+        "T2": "ТОП-2",
+        "T3": "ТОП-3",
+        "T4": "ТОП-4",
+    };
+    return tariffTable[tariffCode] || "Неизвестный тариф";
+}
+
+const getTariffDescription = (tariffName) => {
+    const tariffDescriptions = {
+        E1: {
+            title: 'ЭКО-1',
+            cpu: '1 ядро',
+            ram: '1 ГБ',
+            ssd: '15 ГБ',
+            ip: '1'
+        },
+        E2: {
+            title: 'ЭКО-2',
+            cpu: '2 ядра',
+            ram: '4 ГБ',
+            ssd: '30 ГБ',
+            ip: '1'
+
+        },
+        E3: {
+            title: 'ЭКО-3',
+            cpu: '2 ядра',
+            ram: '8 ГБ',
+            ssd: '50 ГБ',
+            ip: '1'
+        },
+        E4: {
+            title: 'ЭКО-4',
+            cpu: '4 ядра',
+            ram: '8 ГБ',
+            ssd: '80 ГБ',
+            ip: '1'
+        },
+        T1: {
+            title: 'ТОП-1',
+            cpu: '4 ядра',
+            ram: '32 ГБ',
+            ssd: '100 ГБ',
+            ip: '1'
+        },
+        T2: {
+            title: 'ТОП-2',
+            cpu: '8 ядра',
+            ram: '32 ГБ',
+            ssd: '120 ГБ',
+            ip: '1'
+        },
+        T3: {
+            title: 'ТОП-3',
+            cpu: '16 ядра',
+            ram: '64 ГБ',
+            ssd: '150 ГБ',
+            ip: '1'
+        },
+        T4: {
+            title: 'ТОП-4',
+            cpu: '24 ядра',
+            ram: '96 ГБ',
+            ssd: '300 ГБ',
+            ip: '1'
+        },
+    };
+    const description = tariffDescriptions[tariffName];
+    if (description) {
+        return description;
+    } else {
+        return null;
+    }
+}
+
+export { formatAmount, pluralize, formatDate, formatTableAmount, getTariffName, getTariffDescription };

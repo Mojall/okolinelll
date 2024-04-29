@@ -3,7 +3,7 @@
         <h2>Данные пользователя</h2>
         <div class="account-info-card">
             <p><strong>Полное имя:</strong> {{ user_data.fullName }}</p>
-            <p><strong>Тариф:</strong> {{ tariff_data._tariff['Тарифный план интернет'] }}</p>
+            <p><strong>Стоимость услуги:</strong> {{ extractPrice(tariff_data._tariff['Тарифный план интернет']) }} в месяц</p>
             <p><strong>Полный адрес:</strong> {{ tariff_data.fullAddress }}</p>
         </div>
     </div>
@@ -17,6 +17,12 @@ const token = Cookies.get('jwtToken');
 const accountInfo = jwtDecode(token);
 const { user_data } = accountInfo;
 const { tariff_data } = accountInfo;
+
+const extractPrice = (tariff) => {
+    const priceRegex = /(\d+(?:\.\d+)?\s*руб)/;
+    const match = tariff.match(priceRegex);
+    return match ? match[0] : tariff;
+};
 </script>
 
 
@@ -39,5 +45,6 @@ const { tariff_data } = accountInfo;
 
 h2
     padding-left: 20px
+
 
 </style>
