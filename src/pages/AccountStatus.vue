@@ -24,12 +24,18 @@
                 CPU: {{ userTariff.cpuCoresCount }}
                 {{ pluralize(userTariff.cpuCoresCount, 'ядро', 'ядра', 'ядер') }}
             </p>
-            <p v-if="userTariff.ramInGb !== null">RAM: {{ userTariff.ramInGb }}</p>
+            <p v-if="userTariff.ramInGb !== null">
+                RAM: {{ userTariff.ramInGb }} Гб
+            </p>
             <p v-if="userTariff.hardInMb !== null">
                 HDD: {{ userTariff.hardInMb }} Гб
             </p>
-            <p v-if="userTariff.ssdInGb !== null">SSD: {{ userTariff.ssdInGb }} Гб</p>
-            <p v-if="userTariff.ipCount !== null">IP: {{ userTariff.ipCount }}</p>
+            <p v-if="userTariff.ssdInGb !== null">
+                SSD: {{ userTariff.ssdInGb }} Гб
+            </p>
+            <p v-if="userTariff.ipCount !== null">
+                IP: {{ userTariff.ipCount }}
+            </p>
             <p
                 v-if="
           userTariff.cpuCoresCount === null &&

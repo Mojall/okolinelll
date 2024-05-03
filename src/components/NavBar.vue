@@ -49,7 +49,7 @@ const logout = () => {
     store.commit('setLoggedIn', false);
     Cookies.remove('jwtToken');
     Cookies.remove('refreshToken');
-    router.push('/my-login');
+    router.push('/login');
 };
 // Переход на форму регистрации
 // const registerForm = () => {
@@ -57,7 +57,7 @@ const logout = () => {
 // };
 
 const isLoginForm = () => {
-    router.push('/my-login');
+    router.push('/login');
 };
 const toggleCollapse = () => {
     isCollapse.value = !isCollapse.value;

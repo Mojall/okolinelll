@@ -1,11 +1,7 @@
 @font-face {
-    font-family: 'Muller';
-    src: url("../fonts/MullerRegular.woff2") format('woff2'),
-    url('../fonts/MullerRegular.woff') format('woff');
+    font-family: 'Didot';
+    src: url("../fonts/DidotLTPro-Roman.woff2") format('woff2'),
+    url('../fonts/DidotLTPro-Roman.woff') format('woff');
 }
 
-@font-face {
-    font-family: 'Georgia';
-    src: url("../fonts/Georgia.woff2") format('woff2'),
-    url("../fonts/Georgia.woff") format('woff');
-}
+

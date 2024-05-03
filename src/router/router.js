@@ -26,7 +26,7 @@ const router = createRouter({
         //     },
         // },
         {
-            path: '/my-login',
+            path: '/login',
             component: MyLogin,
             meta: {
                 showNavBar: false,

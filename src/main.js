@@ -79,7 +79,7 @@ const checkAuthentication = () => {
         to.meta.showSideBar = to.meta.showSideBar !== false;
 
         if (to.meta.requiresAuth && !isLoggedIn.value) {
-            next('/my-login');
+            next('/login');
         } else {
             next();
         }
