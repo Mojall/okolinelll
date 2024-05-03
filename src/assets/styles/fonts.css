@@ -2,6 +2,12 @@
     font-family: 'Didot';
     src: url("../fonts/DidotLTPro-Roman.woff2") format('woff2'),
     url('../fonts/DidotLTPro-Roman.woff') format('woff');
+    font-weight: normal;
 }
 
-
+@font-face {
+    font-family: 'DidotBold';
+    src: url("../fonts/DidotLTPro-Bold.woff2") format('woff2'),
+    url("../fonts/DidotLTPro-Bold.woff") format('woff');
+    font-weight: bold;
+}
